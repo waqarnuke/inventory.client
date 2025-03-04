@@ -1,33 +1,62 @@
 <div>
-<mat-toolbar color="accent" >
-    <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <span>Logo</span>
-    <span class="container-spacer"></span>
-    <div>
-        <button mat-icon-button>
-            <mat-icon>notifications</mat-icon>
-        </button>
-        <button mat-icon-button>
-            <mat-icon>account_circle</mat-icon>
-        </button>
-    </div>
-</mat-toolbar>
-<mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" opened >
+
+<mat-sidenav-container >
+    <mat-sidenav #sidenav mode="side" opened [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" >
         <mat-nav-list>
             <!-- <a mat-list-item routerLink="/dashboard">Dashboard</a>
             <a mat-list-item routerLink="/heroes">Heroes</a> -->
             @for (item of menuItems; track $index) {
-                <a mat-list-item [routerLink]="item.route">
-                    <mat-icon>{{item.icon}}</mat-icon>
-                    <span>{{item.label}}</span>
-                </a>
+                <!-- <div>
+                    <a mat-list-item [routerLink]="item.route" routerLinkActive="active">
+                        <mat-icon>{{item.icon}}</mat-icon>
+                        <span>{{item.label}}</span>
+                    </a>
+                </div> -->
+                <div>
+            <!-- Parent Menu Item -->
+            <a mat-list-item 
+               [routerLink]="item.route" 
+               class="d-flex align-items-center parent-menu"
+               (click)="toggleMenu(item)"
+               routerLinkActive="active">
+                <mat-icon class="me-2">{{ item.icon }}</mat-icon>
+                <span>{{ item.label }}</span>
+                <mat-icon *ngIf="item.children" class="ms-auto">
+                    {{ item.expanded ? 'expand_less' : 'expand_more' }}
+                </mat-icon>
+            </a>
+
+            <!-- Child Menu Items with Smooth CSS Transition -->
+            <div class="submenu" [class.open]="item.expanded">
+                @for (child of item.children; track $index) {
+                    <a mat-list-item 
+                       [routerLink]="child.route" 
+                       class="child-item" 
+                       routerLinkActive="active">
+                        <span>• {{ child.label }}</span>
+                    </a>
+                }
+            </div>
+        </div>
             }
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content >
+        <mat-toolbar >
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>Logo</span>
+            <span class="container-spacer"></span>
+            <div>
+                <button mat-icon-button>
+                    <mat-icon>notifications</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>account_circle</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
