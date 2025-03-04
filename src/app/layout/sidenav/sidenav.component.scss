@@ -1,33 +1,93 @@
-.example-spacer {
-    flex: 1 1 auto;
-  }
-
-  example-container {
-    position: absolute;
-    top: 60px;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-  }
-  
-  .example-sidenav {
+/* Styling for the toolbar */
+mat-toolbar {
+    background-color: #1976d2; /* Professional blue color */
+    color: white;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 200px;
-    background: rgba(255, 0, 0, 0.5);
-  }
-  
-  .example-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .example-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
+    padding: 0 16px;
+}
+
+/* Spacing between logo and icons */
+.container-spacer {
+    flex: 1;
+}
+
+/* Toolbar button styles */
+mat-toolbar button {
+    color: white;
+}
+
+/* Side Navigation Container */
+mat-sidenav-container {
+    height: 100vh;
+    background-color: #f5f5f5; /* Light background */
+}
+
+/* Side Navigation Panel */
+mat-sidenav {
+    width: 250px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding-top: 16px;
+}
+
+/* Navigation Links */
+mat-nav-list a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #333;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+    border-radius: 4px;
+}
+
+mat-nav-list a:hover {
+    background: rgba(25, 118, 210, 0.1);
+    color: #1976d2;
+}
+
+/* Icons in the menu */
+mat-nav-list mat-icon {
+    margin-right: 10px;
+    color: #1976d2;
+}
+
+/* Main Content Area */
+mat-sidenav-content {
+    padding: 16px;
+    background-color: #fafafa;
+    height: 100vh;
+    overflow: auto;
+}
+
+/* Responsive: Hide Sidenav on Small Screens */
+@media (max-width: 768px) {
+    mat-sidenav {
+        width: 200px;
+    }
+}
+
+// // Header / Toolbar  
+// .mat-toolbar {
+//     background-color: #1976d2;
+//     color: white;
+// }
+// mat-icon {
+//     margin-right: 8px;
+//     color: white;
+// }
+// .container-spacer{
+//     flex: 1 1 auto;
+// }
+// .mat-sidenav-container {
+//     height: 87vh;
+// }
+// .mat-sidenav {
+//     width: 200px;
+//     background: rgba(255, 0, 0, 0.5);
+// }
+// .mat-sidenav-content {
+//     padding: 20px;
+//   }

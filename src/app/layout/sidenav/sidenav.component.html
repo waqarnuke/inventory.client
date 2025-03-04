@@ -1,28 +1,37 @@
-<mat-toolbar>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+<div>
+<mat-toolbar color="accent" >
+    <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>My App</span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-    </button>
+    <span>Logo</span>
+    <span class="container-spacer"></span>
+    <div>
+        <button mat-icon-button>
+            <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>account_circle</mat-icon>
+        </button>
+    </div>
 </mat-toolbar>
-<mat-drawer-container class="example-container">
-    <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-    <mat-drawer-content>Main content</mat-drawer-content>
-</mat-drawer-container>
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" opened>
-      <p>Sidenav Content</p>
-      <button mat-button (click)="sidenav.close()">Close Sidenav</button>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" opened >
+        <mat-nav-list>
+            <!-- <a mat-list-item routerLink="/dashboard">Dashboard</a>
+            <a mat-list-item routerLink="/heroes">Heroes</a> -->
+            @for (item of menuItems; track $index) {
+                <a mat-list-item [routerLink]="item.route">
+                    <mat-icon>{{item.icon}}</mat-icon>
+                    <span>{{item.label}}</span>
+                </a>
+            }
+        </mat-nav-list>
     </mat-sidenav>
-  
-    <mat-sidenav-content>
-      <button mat-raised-button (click)="sidenav.toggle()">Toggle Sidenav</button>
-      <p>Main Content Area</p>
+    <mat-sidenav-content >
+        <router-outlet></router-outlet>
     </mat-sidenav-content>
-  </mat-sidenav-container>
+</mat-sidenav-container>
+<div class="footer">
+    &copy; 2025 Your Company. All Rights Reserved.
+</div>
+</div>
