@@ -25,12 +25,12 @@ export class SidenavComponent {
       icon: 'shopping_bag', 
       label:'Inventory',
       children: [
-            { route: 'inventory/products', label: 'Products' },
+            {route: 'inventory/product', icon: 'shopping_cart ', label:'Product'},
             { route: 'inventory/stock', label: 'Stock' },
             { route: 'inventory/suppliers', label: 'Suppliers' }
       ]
     }, 
-    {route: 'buying', icon: 'shopping_cart ', label:'Buying'},
+   
     {route: 'selling', icon: 'shopping_bag' , label:'Selling'},
     {route: 'Employee', icon: 'people' , label:'Employee'},
     {route: 'Integrations', icon: 'extension' , label:'Integrations'},
