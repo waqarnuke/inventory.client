@@ -151,6 +151,14 @@ mat-toolbar, mat-sidenav, mat-sidenav-container, mat-sidenav-content, .footer {
     font-weight: bold;
 }
 
+.footer {
+    height: 50px;
+    background: #f9f9f9;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    line-height: 50px;
+    font-size: 14px;
+  }
 // // Header / Toolbar  
 // .mat-toolbar {
 //     background-color: #1976d2;

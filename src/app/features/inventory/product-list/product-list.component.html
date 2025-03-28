@@ -1,0 +1,30 @@
+<div class="container-fluid  p-3 p-md-3 m-md-0 text-left" >
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between">
+                <h2>Product List</h2>
+                <!-- <a class="btn btn-outline-primary my-1 rounded-pill" href="#">Older</a> -->
+                <a routerLink="/inventory/add-product" class="btn btn-primary rounded-pill px-3 p-2 btn-sm align-middle">
+                    <div class="p-2 d-inline">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    Add
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" *ngIf="products$ | async as products">
+            <div  class="h-100 p-2 mt-2 bg-body-tertiary border rounded-3" *ngIf="products.totalCount > 0">
+                <app-generic-table 
+                [columns] = "columns"
+                [data]="products$"
+                (edit)="onEditProduct($event)"
+                (delete)="onDeleteProduct($event)"
+                (page)="onPageChange($event)"
+                >
+                </app-generic-table>
+            </div>    
+        </div>
+    </div>
+</div>

@@ -1,59 +1,64 @@
-<div>
+@if(busyService.loading()) 
+{
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 
-<mat-sidenav-container >
-    <mat-sidenav #sidenav mode="side" opened [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" >
-        <mat-nav-list>
-            @for (item of menuItems; track $index) {
-                <div>
-            <!-- Parent Menu Item -->
-            <a mat-list-item 
-                [routerLink]="item.route" 
-                class="d-flex align-items-center parent-menu"
-                (click)="toggleMenu(item)"
-                routerLinkActive="active">
-                <mat-icon class="me-2">{{ item.icon }}</mat-icon>
-                <span>{{ item.label }}</span>
-                <mat-icon *ngIf="item.children" class="ms-auto">
-                    {{ item.expanded ? 'expand_less' : 'expand_more' }}
-                </mat-icon>
-            </a>
+    <mat-sidenav-container >
+        <mat-sidenav #sidenav mode="side" opened [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" >
+            <mat-nav-list>
+                @for (item of menuItems; track $index) {
+                    <div>
+                <!-- Parent Menu Item -->
+                <a mat-list-item 
+                    [routerLink]="item.route" 
+                    class="d-flex align-items-center parent-menu"
+                    (click)="toggleMenu(item)"
+                    routerLinkActive="active">
+                    <mat-icon class="me-2">{{ item.icon }}</mat-icon>
+                    <span>{{ item.label }}</span>
+                    <mat-icon *ngIf="item.children" class="ms-auto">
+                        {{ item.expanded ? 'expand_less' : 'expand_more' }}
+                    </mat-icon>
+                </a>
 
-            <!-- Child Menu Items with Smooth CSS Transition -->
-            <div class="submenu" [class.open]="item.expanded">
-                @for (child of item.children; track $index) {
-                    <a mat-list-item 
-                        [routerLink]="child.route" 
-                        class="child-item" 
-                        routerLinkActive="active">
-                        <mat-icon class="me-2">{{ item.icon }}</mat-icon>
-                        <span>• {{ child.label }}</span>
-                    </a>
+                <!-- Child Menu Items with Smooth CSS Transition -->
+                <div class="submenu" [class.open]="item.expanded">
+                    @for (child of item.children; track $index) {
+                        <a mat-list-item 
+                            [routerLink]="child.route" 
+                            class="child-item" 
+                            routerLinkActive="active">
+                            <mat-icon class="me-2">{{ item.icon }}</mat-icon>
+                            <span>• {{ child.label }}</span>
+                        </a>
+                    }
+                </div>
+            </div>
                 }
-            </div>
-        </div>
-            }
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content >
-        <mat-toolbar >
-            <button mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span>Logo</span>
-            <span class="container-spacer"></span>
-            <div>
-                <button mat-icon-button>
-                    <mat-icon>notifications</mat-icon>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content >
+            <mat-toolbar class="">
+                <button mat-icon-button (click)="sidenav.toggle()">
+                    <mat-icon>menu</mat-icon>
                 </button>
-                <button mat-icon-button>
-                    <mat-icon>account_circle</mat-icon>
-                </button>
+                <span>Logo</span>
+                <span class="container-spacer"></span>
+                <div>
+                    <button mat-icon-button>
+                        <mat-icon>notifications</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>account_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-toolbar>
+            <div style="flex-grow:1; overflow-y: auto;">
+                <router-outlet></router-outlet>
             </div>
-        </mat-toolbar>
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
-</mat-sidenav-container>
-<div class="footer">
-    &copy; 2025 Your Company. All Rights Reserved.
-</div>
-</div>
+            <div class="footer">
+                &copy; 2025 Your Company. All Rights Reserved.
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    

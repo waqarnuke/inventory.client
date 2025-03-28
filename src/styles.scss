@@ -1,4 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+/* ✅ SUCCESS Snackbar */
+.mat-mdc-snack-bar-container.snack-success {
+    --mdc-snackbar-container-color: #388E3C; /* Green shade */
+    --mdc-snackbar-container-fill-color: #388E3C;
+    --mdc-snackbar-container-fill-color-opacity: 0.95;
+    --mdc-snackbar-container-border-radius: 6px;
+    --mdc-snackbar-container-max-width: 350px;
+    z-index: 9999;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* ✅ ERROR Snackbar */
+.mat-mdc-snack-bar-container.snack-error {
+    --mdc-snackbar-container-color: #D32F2F; /* Red shade */
+    --mdc-snackbar-container-fill-color: #D32F2F;
+    --mdc-snackbar-container-fill-color-opacity: 0.95;
+    --mdc-snackbar-container-border-radius: 6px;
+    --mdc-snackbar-container-max-width: 350px;
+    z-index: 9999;
+}
+
+/* ✅ INFO Snackbar */
+.mat-mdc-snack-bar-container.snack-info {
+    --mdc-snackbar-container-color: #1976D2; /* Blue shade */
+    --mdc-snackbar-container-fill-color: #1976D2;
+    --mdc-snackbar-container-fill-color-opacity: 0.95;
+    --mdc-snackbar-container-border-radius: 6px;
+    --mdc-snackbar-container-max-width: 350px;
+    z-index: 9999;
+}
+
+/* ✅ TEXT STYLE */
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+}
+
+/* ✅ BUTTON STYLE */
+.mat-mdc-snack-bar-container .mdc-button {
+    color: white !important;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.mat-mdc-snack-bar-container .mdc-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+

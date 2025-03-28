@@ -6,6 +6,8 @@ import { ReportsComponent } from './features/reports/reports.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LayoutComponent } from './layout/layout.component';
+import { ServerErrorComponent } from './shared/components/server-error/server-error.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 export const routes: Routes = [
     {
@@ -22,16 +24,24 @@ export const routes: Routes = [
         component:LayoutComponent,
         children:[
             {path: 'dashboard', component: DashboardComponent},
-            //{path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)},
             {
-                path: '',  
-                children:[
-                    {path: 'inventory/product', loadComponent : () => import('./features/inventory/product/product.component').then(m =>m.ProductComponent)},
-                ]
+                path: 'inventory',
+                loadChildren: async () => {
+                    const module = await import('./features/inventory/inventory.routes');
+                    return module.inventoryRoutes;
+                } 
             },
             
             {path: 'selling', component:SellProductComponent},
             {path:'reports', component:ReportsComponent}, 
         ]
     },
+    {
+        path:'server-error',
+        component:ServerErrorComponent
+    },
+    {
+        path:'not-found',
+        component:NotFoundComponent
+    }
 ];

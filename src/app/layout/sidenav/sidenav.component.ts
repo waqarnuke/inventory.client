@@ -1,4 +1,4 @@
-import { Component,HostListener } from '@angular/core';
+import { Component,HostListener, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -7,27 +7,29 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { MatButton } from '@angular/material/button';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { BusyService } from '../../core/service/busy.service';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-sidenav',
-  imports: [RouterOutlet,MatToolbarModule, MatButtonModule, MatIconModule,MatSidenavModule,MatListModule,RouterModule,NgIf],
+  imports: [RouterOutlet,MatToolbarModule, MatButtonModule, MatIconModule,MatSidenavModule,MatListModule,RouterModule,NgIf,MatProgressBarModule],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
+  busyService = inject(BusyService);
   showFiller = true;
   isMobile: boolean = window.innerWidth < 768;
 
   menuItems : any[] = [
     {route: 'dashboard', icon: 'dashboard', label:'Dashboard'},
     {
-      route: 'inventory', 
+      route: null, 
       icon: 'shopping_bag', 
-      label:'Inventory',
+      label:'inventory',
       children: [
-            {route: 'inventory/product', icon: 'shopping_cart ', label:'Product'},
-            { route: 'inventory/stock', label: 'Stock' },
-            { route: 'inventory/suppliers', label: 'Suppliers' }
+            {route: 'inventory/add-product', icon: 'shopping_cart ', label:'Add Product'},
+            {route: 'inventory/product-list', icon: 'shopping_cart ', label:'Products'},
       ]
     }, 
    
