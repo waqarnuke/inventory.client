@@ -13,6 +13,7 @@ import { buyingItem } from '../../../model/buyingItem';
 export class CartProductComponent implements OnInit {
   
   @Output() purchase = new EventEmitter<any>();
+  @Output() itemId = new EventEmitter<number>();
 
   @Input() items: buyingItem[] = [];
   @Input() quantity: number = 0;
@@ -37,4 +38,7 @@ export class CartProductComponent implements OnInit {
     this.purchase.emit(this.buyForm.get('method')?.value);
   }
   
+  removeItem(item: number) {
+    this.itemId.emit(item);
+  }
 }

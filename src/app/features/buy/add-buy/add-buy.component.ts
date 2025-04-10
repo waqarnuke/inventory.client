@@ -81,4 +81,25 @@ export class AddBuyComponent implements OnInit {
       }
     })
   }
+
+  removeItem(itemId: number) {
+    //const itme  = this.buyingItem.filter(item => item.itemId === itemId);
+    this.buyingItem.forEach(id => {
+      const index = this.buyingItem.findIndex(item => item.itemId === itemId);
+      if (index !== -1) {
+        this.buyingItem.splice(index, 1);
+      }
+    });
+    // let confirmDelete = confirm('Are you sure you want to delete?');
+    // if (confirmDelete)
+    // {
+    //   this.buyingService.removeItem(item).subscribe({
+    //     next: res => {
+    //       this.snackbar.success ("product saved successfully" );
+    //     }
+    //   });
+      
+    // }
+    // console.log('Delete:', item);
+  }
 }

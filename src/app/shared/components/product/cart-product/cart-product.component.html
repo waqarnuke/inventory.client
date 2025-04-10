@@ -24,7 +24,7 @@
                         <td>{{ item.quantity }}</td>
                         <td>${{ item.pricePerUnit }}</td>
                         <td>
-                            <button class="btn btn-outline-danger">
+                            <button class="btn btn-outline-danger" (click)="removeItem(item.itemId)">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>

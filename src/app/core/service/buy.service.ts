@@ -14,9 +14,10 @@ export class BuyService {
   constructor() { }
 
   confirm(buyingItem:buyingRequestDto){
-    console.log(buyingItem);
-    
-    //return product;
     return this.httpClient.post<any>(this.baseUrl + 'buying/confirm', buyingItem);
+  }
+
+  removeItem(id:number){
+    return this.httpClient.delete(this.baseUrl + 'buying/' + id);
   }
 }
