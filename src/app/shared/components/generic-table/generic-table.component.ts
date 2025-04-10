@@ -4,11 +4,13 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/pag
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { NgFor, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-generic-table',
-  imports: [NgIf,NgFor, MatTableModule, MatPaginatorModule,MatIcon,NgSwitch,NgSwitchCase,NgSwitchDefault,MatPaginatorModule],
+  imports: [NgIf,NgFor, MatTableModule, MatPaginatorModule,NgSwitch,NgSwitchCase,NgSwitchDefault,MatPaginatorModule],
   templateUrl: './generic-table.component.html',
   styleUrl: './generic-table.component.scss'
 })

@@ -9,6 +9,7 @@ import { Pagination } from '../../shared/model/Pagination';
 import { product } from '../../shared/model/product';
 import { image } from '../../shared/model/image';
 import { Supplier } from '../../shared/model/supplier';
+import { buyingItem } from '../../shared/model/buyingItem';
 
 @Injectable({
   providedIn: 'root'
@@ -139,4 +140,23 @@ export class inventoryService {
   deleteProduct(id:number){
     return this.httpClient.delete(this.baseUrl + 'item/' + id);
   }
+
+  deleteProductImage(id:number){
+    return this.httpClient.delete(this.baseUrl + 'item/deletephoto/' + id);
+  }
+
+  searchProduct(search:string)
+  {
+    let httpParams  =  new HttpParams()
+    .set('query', search)
+
+    return this.httpClient.get<product[]>(this.baseUrl + 'item/search', {params: httpParams });
+  }
+
+  addBuyingProduct(product:product){
+    console.log(product);
+    //return product;
+    return this.httpClient.post<buyingItem>(this.baseUrl + 'item/CreateByingItem', product);
+  }
+  //
 }

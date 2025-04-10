@@ -84,7 +84,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
       userId:['1'],
       id:[0],
       images:[],
-      supplierId: this.fb.control([''])
+      supplierId: this.fb.control({value:'0',disabled:false})
     });
 
     this.imageStepForm = this.fb.group({}); // initially empty
@@ -115,8 +115,10 @@ export class AddProductComponent implements OnInit,AfterViewInit {
         })
       }
       else{
-        let emiCtrl = this.productDetailForm.get('itemTypeId');
-        emiCtrl?.setValue(1);
+        let itemTypeId = this.productDetailForm.get('itemTypeId');
+        itemTypeId?.setValue(1);
+        let locationId = this.productDetailForm.get('locationId');
+        locationId?.setValue(1);
       }
     })
 
@@ -184,10 +186,6 @@ export class AddProductComponent implements OnInit,AfterViewInit {
             console.log(data);
             this.snackbar.success("product update successfully");
             console.log(this.productDetailForm.value);
-            
-            //this.imageStepForm = this.fb.group({});
-            //this.imageStepForm.addControl('unlocked', new FormControl('ok'));
-            //stepper.next();
           },
           error: (err) => {
             console.log(err);
@@ -209,7 +207,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
           },
           error: (err) => {
             console.log(err);
-            this.snackbar.error(err.error.message);
+            this.snackbar.error(err?.error?.message);
         }});
       }
       
@@ -301,17 +299,36 @@ export class AddProductComponent implements OnInit,AfterViewInit {
       this.snackbar.error("No files or item ID missing");
       return;
     }
-
+    
+    const validFileTypes = ['image/png', 'image/jpeg', 'image/gif'];
     const formData = new FormData();
 
     for (let i = 0; i < files.length; i++) {
-      formData.append('images', files[i]); // images[] for backend
-    }
 
+      if (files[i].size > 10 * 1024 * 1024) {
+        alert('File size exceeds 10MB!');
+        return;
+      }
+
+      if (!validFileTypes.includes(files[i].type)) {
+        alert('Invalid file type! Please upload PNG, JPG, or GIF.');
+        return;
+      }
+
+      formData.append('images', files[i]); // images[] for backend
+      console.log(files[i])
+    }
+  
     formData.append('itemId', this.newItemId.toString());
 
     this.inventoryService.uploadImages(formData).subscribe({
-      next: () => this.snackbar.success("Images uploaded successfully"),
+      next: (res) => {
+        console.log(res)
+        //this.images = res[0];
+        this.snackbar.success("Images uploaded successfully")
+        this.images[0] = res[0];
+        console.log(this.images)
+      }, 
       error: (err) => this.snackbar.error("Upload failed: " + err.message)
     });
   }
@@ -320,8 +337,13 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     console.log("new")
     this.isEditMode = false;
     this.productDetailForm.reset();
-    let emiCtrl = this.productDetailForm.get('itemTypeId');
-    emiCtrl?.setValue(1);
+    this.images = [];
+    let itemTypeId = this.productDetailForm.get('itemTypeId');
+    itemTypeId?.setValue(1);
+    let locationId = this.productDetailForm.get('locationId');
+    locationId?.setValue(1);
+    let supplierId = this.productDetailForm.get('supplierId');
+    supplierId?.setValue(0);
     this.disableValidation();
   }
 
@@ -338,7 +360,25 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     return this.columns.filter(c => c.visible).map(c => c.key);
   }
 
-  deleteImage(id:number){
-
+  deleteImage(id:number)
+  {
+    console.log(this.images)
+    console.log(id);
+    this.images = [];
+    if(id) {
+      this.inventoryService.deleteProductImage(id).subscribe({
+        next: _ => {
+          this.snackbar.success('Delete successful');
+          this.images = [];
+        }
+      })
+    } 
+    console.log( this.images );
   }
+
+  onFinish(){
+    this.New()
+  }
+
+  
 }

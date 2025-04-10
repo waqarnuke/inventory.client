@@ -32,7 +32,15 @@ export class SidenavComponent {
             {route: 'inventory/product-list', icon: 'shopping_cart ', label:'Products'},
       ]
     }, 
-   
+    {
+      route: null, 
+      icon: 'shopping_bag', 
+      label:'buy',
+      children: [
+            {route: 'buy/add-buy', icon: 'shopping_cart ', label:'Create Buying'},
+            {route: 'buy/buy-list', icon: 'shopping_cart ', label:'Buying List'},
+      ]
+    }, 
     {route: 'selling', icon: 'shopping_bag' , label:'Selling'},
     {route: 'Employee', icon: 'people' , label:'Employee'},
     {route: 'Integrations', icon: 'extension' , label:'Integrations'},

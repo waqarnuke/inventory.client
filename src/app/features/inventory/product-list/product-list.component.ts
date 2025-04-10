@@ -43,12 +43,13 @@ export class ProductListComponent implements OnInit {
   }
 
   loadProducts() {
-    this.invtoryService.getproducts(0,3).subscribe({
+    this.invtoryService.getproducts(0,20).subscribe({
       next: (products) => {
         this._products.next(products);
       }
     });
   }
+  
   onEditProduct(pid: any) {
     console.log('Edit:', pid);
     this.router.navigate(['/inventory/add-product'], { queryParams: { id: pid } });

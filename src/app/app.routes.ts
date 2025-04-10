@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { InventoryComponent } from './features/inventory/inventory.component';
-import { BuyProductComponent } from './features/buy-product/buy-product.component';
 import { SellProductComponent } from './features/sell-product/sell-product.component';
 import { ReportsComponent } from './features/reports/reports.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
@@ -29,6 +28,13 @@ export const routes: Routes = [
                 loadChildren: async () => {
                     const module = await import('./features/inventory/inventory.routes');
                     return module.inventoryRoutes;
+                } 
+            },
+            {
+                path: 'buy',
+                loadChildren: async () => {
+                    const module = await import('./features/buy/buy.routes');
+                    return module.bugRoutes;
                 } 
             },
             

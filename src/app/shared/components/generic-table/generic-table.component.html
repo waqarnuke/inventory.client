@@ -14,12 +14,12 @@
       <td mat-cell *matCellDef="let element">
         <ng-container [ngSwitch]="col.key">
 
-          <!-- ✅ Actions Column -->
+          <!-- ✅ Actions Column add-product?id=10 -->
           <ng-container *ngSwitchCase="'actions'">
             <div class="d-flex gap-1">
-              <button class="btn btn-sm btn-outline-primary" (click)="onEdit(element['id'])" title="Edit">
+              <a  (click)="onEdit(element['id'])" class="btn btn-sm btn-outline-primary"  title="Edit">
                 <i class="fas fa-edit"></i>
-              </button>
+              </a>
               <button class="btn btn-sm btn-outline-danger" (click)="onDelete(element['id'])" title="Delete">
                 <i class="fas fa-trash-alt"></i>
               </button>

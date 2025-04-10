@@ -1,0 +1,144 @@
+
+<form [formGroup]="productDetailForm" (ngSubmit)="saveProduct()" style=" border: solid 0px red;">
+    <div class="row g-3">
+        <div class="col-12">
+            <label for="firstName" class="form-label">Product Type</label>
+            <br>
+            <div class="form-check form-check-inline">
+                <input checked class="form-check-input" (change)="disableValidation()" type="radio" [value]="1" formControlName="itemTypeId" >
+                <label class="form-check-label" for="inlineRadio1">Single</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" (change)="disableValidation()" type="radio"  [value]="2"  formControlName="itemTypeId">
+                <label class="form-check-label" for="inlineRadio2">Multiple</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" (change)="disableValidation()" type="radio" [value]="3"  formControlName="itemTypeId">
+                <label class="form-check-label" for="inlineRadio3">Anonymous</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" hidden formControlName="id">
+            <input type="text" class="form-control" placeholder="Product Name" formControlName="title">
+            <div *ngIf="productDetailForm.controls['title']?.touched && productDetailForm.controls['title']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['title']?.errors?.['required']">Title is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class="form-label">description</label>
+            <input type="text" class="form-control" placeholder="Description"  formControlName="description">
+        </div>
+        <div class="col-sm-2">
+            <label class="form-label">emi</label>
+            <input type="text" class="form-control"  placeholder="emi"  formControlName="emi" >
+            <div *ngIf="productDetailForm.controls['emi']?.touched && productDetailForm.controls['emi']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['emi']?.errors?.['required']">EMI is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="state" class="form-label">Model</label>
+            <select class="form-select" formControlName="modelId">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let option of model" [value]="option.id">{{ option.name }}</option>
+            </select>
+            <div *ngIf="productDetailForm.controls['modelId']?.touched && productDetailForm.controls['modelId']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['modelId']?.errors?.['required']">Model selected is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class="form-label">Price</label>
+            <input type="number"  class="form-control"  placeholder="Price"  formControlName="price">
+            <div *ngIf="productDetailForm.controls['price']?.touched && productDetailForm.controls['price']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['price']?.errors?.['required']">Price is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class="form-label">Quantity</label>
+            <input type="number" class="form-control"  placeholder="stock"  formControlName="stock">
+            <div *ngIf="productDetailForm.controls['stock']?.touched && productDetailForm.controls['stock']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['stock']?.errors?.['required']">Stock is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="firstName" class="form-label">Color</label>
+            <input type="text" class="form-control" placeholder="color" formControlName="color">
+            <div *ngIf="productDetailForm.controls['color']?.touched && productDetailForm.controls['color']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['color']?.errors?.['required']">Color is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="firstName" class="form-label">Condition</label>
+            <select class="form-select" formControlName="condition">
+                <option value="">Choose...</option>
+                <option>Brand New</option>
+                <option>New</option>
+                <option>Used</option>
+            </select>
+            <div *ngIf="productDetailForm.controls['condition']?.touched && productDetailForm.controls['condition']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['condition']?.errors?.['required']">Condition selected is required.</small>
+                </span>
+            </div>
+        </div>
+        
+        <div class="col-sm-2">
+            <label for="state" class="form-label">Brand</label>
+            <select class="form-select" formControlName="brandId">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let option of brands" [value]="option.id">{{ option.name }}</option>
+            </select>
+            <div *ngIf="productDetailForm.controls['brandId']?.touched && productDetailForm.controls['brandId']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['brandId']?.errors?.['required']">Brand selected is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="state" class="form-label">Storage</label>
+            <select class="form-select" formControlName="storageId">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let option of storage" [value]="option.id">{{ option.name }}</option>
+            </select>
+            <div *ngIf="productDetailForm.controls['storageId']?.touched && productDetailForm.controls['storageId']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['storageId']?.errors?.['required']">Storage selected is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="state" class="form-label">Network</label>
+            <select class="form-select" formControlName="mobileNetworkId">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let option of mobileNetwork" [value]="option.id">{{ option.name }}</option>
+            </select>
+            <div *ngIf="productDetailForm.controls['mobileNetworkId']?.touched && productDetailForm.controls['mobileNetworkId']?.invalid ">
+                <span class="text-danger">
+                    <small *ngIf="productDetailForm.controls['mobileNetworkId']?.errors?.['required']">Network selected is required.</small>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="state" class="form-label">Supplier</label>
+            <select class="form-select" formControlName="supplierId">
+                <option value="0" disabled selected>Select</option>
+                <option *ngFor="let option of supplier" [value]="option.id">{{ option.companyName }}</option>
+            </select>
+        </div>
+        <div>
+            <button class=" btn btn-primary" [disabled]="productDetailForm.invalid" type="submit">Add</button>
+        </div>
+    </div>
+</form>

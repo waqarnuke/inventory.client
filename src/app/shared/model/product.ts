@@ -29,4 +29,5 @@ export type product =  {
     storageId: number
     storage: string
     images : image[]
+    supplierId : number
 }  

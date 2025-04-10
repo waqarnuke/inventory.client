@@ -1,0 +1,33 @@
+<div class="container-fluid mt-0" >
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="d-flex justify-content-between p-2">
+                <h2>Buy Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="h-100 bg-body-tertiary border rounded-3 p-2">
+                <app-create-product
+                (products) = "getProducts($event)"
+                ></app-create-product>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @if (buyingItem.length > 0)
+            {
+                <app-cart-product
+                [items]="buyingItem"
+                [quantity]="quantity"
+                [total]="total"
+                [includeTex]="false"
+                (purchase)="purchase($event)"
+                ></app-cart-product>
+            }
+        </div>
+    </div>
+    
+</div>

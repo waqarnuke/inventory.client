@@ -1,15 +1,14 @@
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { InventoryComponent } from './inventory.component';
-import { AddProductComponent } from './add-product/add-product.component';
-import { ProductListComponent } from './product-list/product-list.component';
 import { inventoryService } from '../../core/service/inventory.service';
+import { AddBuyComponent } from './add-buy/add-buy.component';
+import { BuyListComponent } from './buy-list/buy-list.component';
 
-export const inventoryRoutes: Routes = [
-    { path: '', component: AddProductComponent }, // ✅ Ye default component hoga
+export const bugRoutes: Routes = [
+    { path: '', component: AddBuyComponent }, // ✅ Ye default component hoga
     { 
-        path: 'add-product', 
-        component: AddProductComponent,
+        path: 'add-buy', 
+        component: AddBuyComponent,
         resolve :{
             brands  : () => inject(inventoryService).getBrands(),
             mobileNetwork  : () => inject(inventoryService).getMobileNetwork(),
@@ -19,8 +18,8 @@ export const inventoryRoutes: Routes = [
         },
     }, // ✅ Jab "/inventory/product" jayega to ProductComponent load hoga.
     { 
-        path: 'add-product:/id', 
-        component: AddProductComponent,
+        path: 'add-buy:/id', 
+        component: AddBuyComponent,
         resolve :{
             brands  : () => inject(inventoryService).getBrands(),
             mobileNetwork  : () => inject(inventoryService).getMobileNetwork(),
@@ -30,8 +29,8 @@ export const inventoryRoutes: Routes = [
         },
     },
     { 
-        path: 'update-product:/id', 
-        component: AddProductComponent,
+        path: 'update-buy:/id', 
+        component: AddBuyComponent,
         resolve :{
             brands  : () => inject(inventoryService).getBrands(),
             mobileNetwork  : () => inject(inventoryService).getMobileNetwork(),
@@ -40,5 +39,5 @@ export const inventoryRoutes: Routes = [
             supplier  : () => inject(inventoryService).getSupplier(),
         },
     },
-    { path: 'product-list', component: ProductListComponent }
+    { path: 'buy-list', component: BuyListComponent }
 ];
