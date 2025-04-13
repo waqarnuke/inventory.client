@@ -18,9 +18,6 @@ import { buyingItem } from '../../../shared/model/buyingItem';
   standalone: true,
   selector: 'app-add-buy',
   imports: [
-    RouterLink,
-    AsyncPipe,
-    NgFor,
     CreateProductComponent,
     CartProductComponent
   ],

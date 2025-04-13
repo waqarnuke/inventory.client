@@ -16,7 +16,7 @@ import { product } from '../../../model/product';
 
 @Component({
   selector: 'app-create-product',
-  imports: [NgFor,NgIf,ReactiveFormsModule,MatInputModule,NgSwitch,NgSwitchCase, NgSwitchDefault],
+  imports: [NgFor,NgIf,ReactiveFormsModule,MatInputModule],
   templateUrl: './create-product.component.html',
   styleUrl: './create-product.component.scss'
 })

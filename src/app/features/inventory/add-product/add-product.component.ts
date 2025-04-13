@@ -17,7 +17,7 @@ import { Supplier } from '../../../shared/model/supplier';
 
 @Component({
   selector: 'app-add-product',
-  imports: [NgFor,NgIf,ReactiveFormsModule,MatStepperModule,MatInputModule,NgSwitch,NgSwitchCase, NgSwitchDefault,MatTableModule],
+  imports: [NgFor,NgIf,ReactiveFormsModule,MatStepperModule,MatInputModule,MatTableModule],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss'
 })
@@ -35,7 +35,6 @@ export class AddProductComponent implements OnInit,AfterViewInit {
   model:Model[];
   images:image[] = [];
   supplier:Supplier[] = [];
-  //private fb = inject(FormBuilder);
   productDetailForm: FormGroup;
   imageStepForm: FormGroup;
 

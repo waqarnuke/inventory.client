@@ -23,7 +23,6 @@ import { product } from '../../shared/model/product';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    AsyncPipe,
     NgFor
   ],
   templateUrl: './sell-product.component.html',

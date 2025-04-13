@@ -177,7 +177,7 @@
                         <ng-template matStepLabel>Upload Images</ng-template>
                         <!-- multiple -->
                         <div>
-                            @if (images?.length == 0) {
+                            @if (images.length == 0) {
                                 <input type="file" (change)="onImageUpload($event)"  /> 
                             }
                             <div class="mt-2">
