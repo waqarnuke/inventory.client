@@ -5,7 +5,7 @@ import { Model } from '../../shared/model/model';
 import { MobileNetwork } from '../../shared/model/mobileNetwork';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { Storage } from '../../shared/model/storage';
-import { Pagination } from '../../shared/model/Pagination';
+import { Pagination } from '../../shared/model/pagination';
 import { product } from '../../shared/model/product';
 import { image } from '../../shared/model/image';
 import { Supplier } from '../../shared/model/supplier';

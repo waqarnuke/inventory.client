@@ -8,7 +8,7 @@ import { CreateProductComponent } from '../../../shared/components/product/creat
 import { CartProductComponent } from '../../../shared/components/product/cart-product/cart-product.component';
 import { SnackbarService } from '../../../core/service/snackbar.service';
 import { BuyService } from '../../../core/service/buy.service';
-import { buyingRequestDto } from '../../../shared/model/BuyingRequestDto';
+import { buyingRequestDto } from '../../../shared/model/buyingRequestDto';
 import { buyingItem } from '../../../shared/model/buyingItem';
 
 

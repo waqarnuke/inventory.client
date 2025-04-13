@@ -9,3 +9,14 @@ export type buyingItem =  {
     transactionId: string
     locationId: number
 }
+
+export type buyingItemDto = {
+    itemId: number
+    title: string
+    quantity: number
+    pricePerUnit: number
+    totalPrice: number
+    paymentMethod: string
+    locationName: string
+    transactionId: string
+}

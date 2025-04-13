@@ -3,11 +3,10 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { inventoryService } from '../../../core/service/inventory.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-import { Pagination } from '../../../shared/model/Pagination';
+import { Pagination } from '../../../shared/model/pagination';
 import { product } from '../../../shared/model/product';
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
 import { SnackbarService } from '../../../core/service/snackbar.service';
-
 
 @Component({
   selector: 'app-product-list',
