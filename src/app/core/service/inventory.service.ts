@@ -10,6 +10,7 @@ import { product } from '../../shared/model/product';
 import { image } from '../../shared/model/image';
 import { Supplier } from '../../shared/model/supplier';
 import { buyingItem } from '../../shared/model/buyingItem';
+import { BuySaleItem } from '../../shared/model/buySaleItem';
 
 @Injectable({
   providedIn: 'root'
@@ -150,13 +151,13 @@ export class inventoryService {
     let httpParams  =  new HttpParams()
     .set('query', search)
 
-    return this.httpClient.get<product[]>(this.baseUrl + 'item/search', {params: httpParams });
+    return this.httpClient.get<BuySaleItem[]>(this.baseUrl + 'item/search', {params: httpParams });
   }
 
   addBuyingProduct(product:product){
     console.log(product);
     //return product;
-    return this.httpClient.post<buyingItem>(this.baseUrl + 'item/CreateByingItem', product);
+    return this.httpClient.post<BuySaleItem>(this.baseUrl + 'item/CreateByingItem', product);
   }
   //
 }

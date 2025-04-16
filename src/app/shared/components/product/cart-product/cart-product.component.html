@@ -10,8 +10,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Item</th>
-                            <th scope="col">Qty</th>
                             <th scope="col">Price</th>
+                            <th scope="col">Qty</th>
                             <th scope="col"> </th>
                         </tr>
                     </thead>
@@ -21,8 +21,20 @@
                             <h6 class="my-0">{{ item.title }}</h6>
                             <!-- <small class="text-body-secondary">{{ item.description }}</small> -->
                         </td>
-                        <td>{{ item.quantity }}</td>
-                        <td>${{ item.pricePerUnit }}</td>
+                        <!-- <td>${{ item.pricePerUnit }}</td> -->
+                        <td>
+                            <span class="badge bg-primary rounded-pill">${{ item.pricePerUnit * item.quantity }}</span>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-start">
+                                <button class="btn btn-outline-primary btn-sm" >
+                                    <i class="fa fa-minus" (click)="decreaseQuantity(item.itemId)"></i>
+                                </button>
+                                {{ item.quantity }}
+                                <button  class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-plus" (click)="increaseQuantity(item.itemId)"></i>
+                                </button>
+                            </div>
+                        </td>
                         <td>
                             <button class="btn btn-outline-danger" (click)="removeItem(item.itemId)">
                                 <i class="fa fa-trash"></i>
@@ -72,10 +84,10 @@
                         <div>
                             <h6 class="my-0">Tex</h6>
                         </div>
-                        <span class="text-body-secondary fw-bold">{{quantity}}</span>
+                        <span class="text-body-secondary fw-bold">{{totalQuantity}}</span>
                     </li>
                 }
-                
+
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="my-0">Total</h6>
@@ -85,12 +97,12 @@
             </ul>
             <div class="d-flex gap-1 justify-content-center jub py-2">
                 <button class="btn btn-outline-success" type="button"  (click)="onPurchase()">
-                    Purchase 
+                    Purchase
                 </button>
                 <i class=" text-success fa-sharp fa-regular justify-content-between fa-circle-check fs-1"></i>
             </div>
-            
+
         </div>
-        
+
     </div>
 </div>

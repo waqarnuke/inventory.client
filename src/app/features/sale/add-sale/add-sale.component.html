@@ -1,0 +1,88 @@
+<div class="container-fluid mt-0" >
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="d-flex justify-content-between p-2">
+                <h2>Sale Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="h-100 bg-body-tertiary border rounded-3">
+                <form  style=" border: solid 0px red;">
+                    <div class="row g-3">
+                        <div class="col">
+                            <div class="autocomplete-wrapper">
+                                <div class="input-group" >
+                                    <input
+                                    type="text"
+                                    class="form-control form-control-lg"
+                                    placeholder="Search product"
+                                    [formControl]="searchControl"
+                                    (focus)="showDropdown = true"
+                                    (blur)="hideDropdown()"
+                                    (input)="onInput()"
+                                /> 
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+                                </div>
+                                <ul *ngIf="showDropdown && filteredProducts.length > 0" class="dropdown-menu w-50 show">
+                                    <li  class="w-100 dropdown-item d-flex justify-content-between align-items-center">
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td>
+                                                    Title
+                                                </td>
+                                                <td>
+                                                    Price
+                                                </td>
+                                                <td>
+                                                    Qry
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr *ngFor="let product of filteredProducts">
+                                                <td>
+                                                    {{ product.title }}
+                                                </td>
+                                                <td>
+                                                    {{ product.pricePerUnit }}
+                                                </td>
+                                                <td>
+                                                    {{ product.quantity }}
+                                                </td>
+                                                <td>
+                                                    <button class="btn text-success" (mousedown)="addToCart(product)">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <app-cart-product
+                [items]="selectedProducts"
+                [quantity]="quantity"
+                [total]="total"
+                [includeTex]="false"
+                (decreaseQuantityEmit)="decreaseQuantity($event)"
+                (increaseQuantityEmit)="increaseQuantity($event)"
+                (removeEmit)="removeItem($event)"
+                (purchase)="purchase($event)"
+                ></app-cart-product>
+        </div>
+    </div>
+</div>

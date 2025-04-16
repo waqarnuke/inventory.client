@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { product } from '../../../model/product';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { buyingItem } from '../../../model/buyingItem';
+import { BuySaleItem } from '../../../model/buySaleItem';
 
 @Component({
   selector: 'app-cart-product',
@@ -13,13 +14,18 @@ import { buyingItem } from '../../../model/buyingItem';
 export class CartProductComponent implements OnInit {
   
   @Output() purchase = new EventEmitter<any>();
-  @Output() itemId = new EventEmitter<number>();
+  @Output() removeEmit = new EventEmitter<number>();
+  @Output() decreaseQuantityEmit = new EventEmitter<number>();
+  @Output() increaseQuantityEmit = new EventEmitter<number>();
 
-  @Input() items: buyingItem[] = [];
+  @Input() items: BuySaleItem[] = [];
   @Input() quantity: number = 0;
   @Input() total: number = 0;
   @Input() includeTex: boolean = false;
-
+  
+  totalPrice: number = 0;
+  totalQuantity: number = 0;
+  
   buyForm: FormGroup = new FormGroup({}); 
 
   constructor(private fb: FormBuilder) {
@@ -39,6 +45,15 @@ export class CartProductComponent implements OnInit {
   }
   
   removeItem(item: number) {
-    this.itemId.emit(item);
+    this.removeEmit.emit(item);
   }
+
+  decreaseQuantity(item: number) {
+    this.decreaseQuantityEmit.emit(item);
+  }
+
+  increaseQuantity(item: number) {
+    this.increaseQuantityEmit.emit(item);   
+  }
+  
 }

@@ -35,13 +35,22 @@ export class SidenavComponent {
     {
       route: null, 
       icon: 'shopping_bag', 
-      label:'buy',
+      label:'Buy',
       children: [
             {route: 'buy/add-buy', icon: 'shopping_cart ', label:'Create Buying'},
             {route: 'buy/buy-list', icon: 'shopping_cart ', label:'Buying List'},
       ]
     }, 
-    {route: 'selling', icon: 'shopping_bag' , label:'Selling'},
+    {
+      route: null, 
+      icon: 'shopping_bag', 
+      label:'Sale',
+      children: [
+            {route: 'sale/add-sale', icon: 'shopping_cart ', label:'Add Sale'},
+            {route: 'sale/sale-list', icon: 'shopping_cart ', label:'Sale List'},
+      ]
+    }, 
+    
     {route: 'Employee', icon: 'people' , label:'Employee'},
     {route: 'Integrations', icon: 'extension' , label:'Integrations'},
     {route: 'reports', icon: 'bar_chart' , label:'Reports'},
