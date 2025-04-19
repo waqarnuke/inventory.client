@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BuySaleRequestDto } from '../../shared/model/buySaleRequestDto';
+import { SaleTransactionDto } from '../../shared/model/saleTransactionDto';
+import { Pagination } from '../../shared/model/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,14 @@ export class SaleService {
 
   constructor() { }
 
-   confirm(saleItem:BuySaleRequestDto){
-      return this.httpClient.post<any>(this.baseUrl + 'sale/confirm', saleItem);
-    }
+  confirm(saleItem:BuySaleRequestDto){
+    return this.httpClient.post<any>(this.baseUrl + 'sale/confirm', saleItem);
+  }
+
+  getSaleByTransaction(pageindex:number,pagesize:number){
+    let httpParams  =  new HttpParams()
+          .set('index', pageindex)
+          .set('size', pagesize)
+    return this.httpClient.get<Pagination<SaleTransactionDto>>(this.baseUrl + 'sale/get-sale-by-transaction',{params: httpParams });
+  }
 }

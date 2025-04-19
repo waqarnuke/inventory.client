@@ -1,1 +1,54 @@
-<p>sale-list works!</p>
+<table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Transaction ID</th>
+        <th>Date</th>
+        <th>Payment</th>
+        <th>Total Items</th>
+        <th>Total Amount</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let sale of sales">
+            <tr>
+                <td>{{ sale.transactionId }}</td>
+                <td>{{ sale.saleDate | date:'shortDate' }}</td>
+                <td>{{ sale.paymentMethod }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>{{ sale.totalPrice| currency }}</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" (click)="toggleDetails(sale)">
+                    {{ sale.showDetails ? 'Hide' : 'View' }}
+                  </button>
+                </td>
+              </tr>
+          
+              <!-- Expanded Item List -->
+              <tr *ngIf="sale.showDetails">
+                <td colspan="6">
+                  <table class="table table-sm table-striped mb-0">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price/Unit</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of sale.items">
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.stock }}</td>
+                        <td>{{ item.price| currency }}</td>
+                        <td>{{ item.createdTime| date }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+        </ng-container>   
+      
+    </tbody>
+  </table>
+  

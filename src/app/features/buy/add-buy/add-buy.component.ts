@@ -47,7 +47,6 @@ export class AddBuyComponent implements OnInit {
   
   getProducts(product:product)
   {
-    console.log(product)
     this.inventoryService.addBuyingProduct(product).subscribe({
       next: (res) => {
         console.log(res)
