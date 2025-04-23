@@ -11,17 +11,19 @@ import { image } from '../../shared/model/image';
 import { Supplier } from '../../shared/model/supplier';
 import { buyingItem } from '../../shared/model/buyingItem';
 import { BuySaleItem } from '../../shared/model/buySaleItem';
+import { InitServiceService } from './init-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class inventoryService {
-
+  
   private _brands = new BehaviorSubject<Brand[]>([]);
   private _model = new BehaviorSubject<Model[]>([]);
   private _mobileNetwork = new BehaviorSubject<MobileNetwork[]>([]);
   private _storage = new BehaviorSubject<Storage[]>([]);
   private _supplier = new BehaviorSubject<Supplier[]>([]);
+  
   // private _products = new BehaviorSubject<Pagination<product>>({
   //   data: [],
   //   totalCount: 0,
@@ -29,11 +31,11 @@ export class inventoryService {
   //   pageSize: 10
   // });
   // products$ = this._products.asObservable();
-
+  
   httpClient = inject(HttpClient) 
   baseUrl = "https://localhost:5001/api/";
   constructor() 
-  { 
+  {
   }
 
   get brands$() {
@@ -106,8 +108,9 @@ export class inventoryService {
       ); 
   }
 
-  getproducts(pageindex:number,pagesize:number,){
+  getproducts(locationId:number,pageindex:number,pagesize:number,){
     let httpParams  =  new HttpParams()
+    .set('locationId', locationId)
     .set('index', pageindex)
     .set('size', pagesize)
 

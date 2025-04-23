@@ -44,7 +44,13 @@
                 </button>
                 <span>Logo</span>
                 <span class="container-spacer"></span>
-                <div>
+                <div class="d-flex align-items-center">
+                    <ng-container *ngIf="iniService.location$ | async as location">
+                        <select *ngIf="location" class="form-select" (change)="onLocationChange($event)">
+                            <option *ngFor="let option of location" [value]="option.id">{{ option.name }}</option>
+                        </select>
+                    </ng-container>
+                    
                     <button mat-icon-button>
                         <mat-icon>notifications</mat-icon>
                     </button>

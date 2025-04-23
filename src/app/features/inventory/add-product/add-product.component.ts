@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { image } from '../../../shared/model/image';
 import { MatTableModule } from '@angular/material/table';
 import { Supplier } from '../../../shared/model/supplier';
+import { InitServiceService } from '../../../core/service/init-service.service';
 
 @Component({
   selector: 'app-add-product',
@@ -26,7 +27,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
   activatedRoute = inject(ActivatedRoute);  
   private inventoryService = inject(inventoryService)
   private snackbar = inject(SnackbarService)
-
+  private initService = inject(InitServiceService)
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   
   brands:Brand[];
@@ -37,7 +38,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
   supplier:Supplier[] = [];
   productDetailForm: FormGroup;
   imageStepForm: FormGroup;
-
+  locationId: number = 0; 
   // disabled feild 
   isEmiDisabled = false;
   isBrandDisabled = false;
@@ -61,6 +62,13 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     private _inventoryService:inventoryService,
     private fb:FormBuilder
   ) {
+    this.initService.locationId$.subscribe({
+      next:res => {
+        this.locationId = res as number;
+        console.log(this.locationId )
+      } 
+    })
+
     this.brands = [];
     this.storage = [];
     this.mobileNetwork =[];
@@ -79,7 +87,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
       storageId:this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
       mobileNetworkId: this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
       itemTypeId: this.fb.control({value:[1],disabled:false},[Validators.required]),//['1'],
-      locationId:['1'],
+      locationId:this.fb.control({value:this.locationId,disabled:false},[Validators.required]),//['1'],//['1'],
       userId:['1'],
       id:[0],
       images:[],
@@ -91,6 +99,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
   
   
   ngOnInit(): void { 
+
     this.activatedRoute.queryParams.subscribe(params => {
       let pid = params['id'];
       if(pid != undefined){
@@ -116,8 +125,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
       else{
         let itemTypeId = this.productDetailForm.get('itemTypeId');
         itemTypeId?.setValue(1);
-        let locationId = this.productDetailForm.get('locationId');
-        locationId?.setValue(1);
+        console.log(this.locationId)
       }
     })
 
@@ -340,7 +348,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     let itemTypeId = this.productDetailForm.get('itemTypeId');
     itemTypeId?.setValue(1);
     let locationId = this.productDetailForm.get('locationId');
-    locationId?.setValue(1);
+    locationId?.setValue(this.locationId);
     let supplierId = this.productDetailForm.get('supplierId');
     supplierId?.setValue(0);
     this.disableValidation();

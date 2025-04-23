@@ -18,8 +18,9 @@ export class SaleService {
     return this.httpClient.post<any>(this.baseUrl + 'sale/confirm', saleItem);
   }
 
-  getSaleByTransaction(pageindex:number,pagesize:number){
+  getSaleByTransaction(locationId:number,pageindex:number,pagesize:number){
     let httpParams  =  new HttpParams()
+          .set('locationId', locationId)
           .set('index', pageindex)
           .set('size', pagesize)
     return this.httpClient.get<Pagination<SaleTransactionDto>>(this.baseUrl + 'sale/get-sale-by-transaction',{params: httpParams });

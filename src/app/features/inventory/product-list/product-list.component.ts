@@ -7,6 +7,7 @@ import { Pagination } from '../../../shared/model/pagination';
 import { product } from '../../../shared/model/product';
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
 import { SnackbarService } from '../../../core/service/snackbar.service';
+import { InitServiceService } from '../../../core/service/init-service.service';
 
 @Component({
   selector: 'app-product-list',
@@ -19,14 +20,18 @@ export class ProductListComponent implements OnInit {
   private snackbar = inject(SnackbarService)
   private router = inject(Router);
   invtoryService = inject(inventoryService);
-  
+  initService = inject(InitServiceService);
+
   private _products = new BehaviorSubject<Pagination<product>>({
     data: [],
     totalCount: 0,
     pageIndex: 0,
     pageSize: 10
   });
-  products$ = this._products.asObservable(); // ✅ exposed for binding
+
+  products$ = this._products.asObservable();
+
+  locationId: number = 0;
 
   columns = [
     { key: 'id', label: 'id', visible:false },
@@ -36,13 +41,25 @@ export class ProductListComponent implements OnInit {
     { key: 'stock', label: 'Quantity', visible:true },
     { key: 'actions', label: '', visible:true }
   ]
-
+  /**
+   *
+   */
+  constructor() {
+    this.initService.locationId$.subscribe({
+      next:res => {
+        this.locationId = res as number;
+        console.log(this.locationId )
+      } 
+    }) 
+    
+  }
   ngOnInit(): void {
     this.loadProducts();    
   }
 
   loadProducts() {
-    this.invtoryService.getproducts(0,20).subscribe({
+    console.log(this.locationId)
+    this.invtoryService.getproducts(this.locationId,0,20).subscribe({
       next: (products) => {
         this._products.next(products);
       }
@@ -73,7 +90,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onPageChange(event: any) {
-    this.invtoryService.getproducts(event.pageIndex, event.pageSize).subscribe({
+    this.invtoryService.getproducts(this.locationId,event.pageIndex, event.pageSize).subscribe({
       next: (products) => {
         this._products.next(products);
       }

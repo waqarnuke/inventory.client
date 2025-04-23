@@ -15,6 +15,7 @@ import { BuySaleRequestDto } from '../../../shared/model/buySaleRequestDto';
 import { BuySaleItem } from '../../../shared/model/buySaleItem';
 import { SaleService } from '../../../core/service/sale.service';
 import { CartProductComponent } from '../../../shared/components/product/cart-product/cart-product.component';
+import { InitServiceService } from '../../../core/service/init-service.service';
 
 @Component({
   selector: 'app-add-sale',
@@ -35,6 +36,7 @@ import { CartProductComponent } from '../../../shared/components/product/cart-pr
 export class AddSaleComponent {
   private snackbar = inject(SnackbarService)
   inventoryService = inject(inventoryService)
+  initService = inject(InitServiceService);
 
   buySaleReq: BuySaleRequestDto = {
     paymentMethod: "",
@@ -47,12 +49,19 @@ export class AddSaleComponent {
   showDropdown = false;
   selectedProduct?: product;
   selectedProducts: buyingItem[] = [];
-
+  locationId: number = 0;
   quantity: number = 0;
   total: number = 0;
   includeTex: boolean = false;
 
-  constructor() {}
+  constructor() {
+    this.initService.locationId$.subscribe({
+      next:res => {
+        this.locationId = res as number;
+        console.log(this.locationId )
+      } 
+    }) 
+  }
   ngOnInit(): void {
     this.calculateTotal();
     this.calculateTotalQuantity();
@@ -66,82 +75,86 @@ export class AddSaleComponent {
 
   onInput() {
       this.showDropdown = true;
-    }
+  }
   
-    selectProduct(product: product) {
-      this.selectedProduct = product;
-      this.searchControl.setValue(product.title);
-      this.showDropdown = false;
-      console.log('Selected product:', product);
-    }
-    
-    hideDropdown() {
-      setTimeout(() => this.showDropdown = false, 200); // allow click to register before hiding
-    }
+  selectProduct(product: product) {
+    this.selectedProduct = product;
+    this.searchControl.setValue(product.title);
+    this.showDropdown = false;
+    console.log('Selected product:', product);
+  }
   
-    addToCart(product: BuySaleItem) {
-      product.quantity = 1;
-      this.selectedProducts.push(product);
-      this.searchControl.setValue('');
-      this.filteredProducts = [];
-      this.quantity = this.selectedProducts.reduce((total, item) => total + item.quantity, 0);
-      this.total = this.selectedProducts.reduce((total, item) => total + (item.pricePerUnit * item.quantity), 0);
+  hideDropdown() {
+    setTimeout(() => this.showDropdown = false, 200); // allow click to register before hiding
+  }
+
+  addToCart(product: BuySaleItem) {
+    product.quantity = 1;
+    this.selectedProducts.push(product);
+    this.searchControl.setValue('');
+    this.filteredProducts = [];
+    this.quantity = this.selectedProducts.reduce((total, item) => total + item.quantity, 0);
+    this.total = this.selectedProducts.reduce((total, item) => total + (item.pricePerUnit * item.quantity), 0);
+    this.locationId = this.locationId;
+  }
+  
+  decreaseQuantity(item: number) {
+    console.log('Decrease quantity for item:', item);
+    const index = this.selectedProducts.findIndex(i => i.itemId === item);
+    if (index !== -1) {
+      this.selectedProducts[index].quantity--;
+      if (this.selectedProducts[index].quantity <= 0) {
+        this.selectedProducts.splice(index, 1);
+      }
+      this.calculateTotalQuantity();
+      this.calculateTotal();
     }
-    
-    decreaseQuantity(item: number) {
-      console.log('Decrease quantity for item:', item);
-      const index = this.selectedProducts.findIndex(i => i.itemId === item);
+  }
+  
+  increaseQuantity(item: number) {
+    const index = this.selectedProducts.findIndex(i => i.itemId === item);
+    if (index !== -1) {
+      this.selectedProducts[index].quantity++;
+      this.calculateTotal();
+      this.calculateTotalQuantity();
+    }
+  }
+
+  calculateTotal() {
+    this.total = this.selectedProducts.reduce((acc, item) => acc + (item.pricePerUnit * item.quantity), 0);
+    if (this.includeTex) {
+      this.total += this.total * 0.15; // Assuming 15% tax
+    }
+  }
+
+  calculateTotalQuantity() {
+    this.quantity = this.selectedProducts.reduce((acc, item) => acc + item.quantity, 0);
+  }
+  
+  removeItem(itemId: number) {
+    this.selectedProducts.forEach(id => {
+      const index = this.selectedProducts.findIndex(item => item.itemId === itemId);
       if (index !== -1) {
-        this.selectedProducts[index].quantity--;
-        if (this.selectedProducts[index].quantity <= 0) {
-          this.selectedProducts.splice(index, 1);
-        }
-        this.calculateTotalQuantity();
-        this.calculateTotal();
+        this.selectedProducts.splice(index, 1);
       }
-    }
-    increaseQuantity(item: number) {
-      const index = this.selectedProducts.findIndex(i => i.itemId === item);
-      if (index !== -1) {
-        this.selectedProducts[index].quantity++;
-        this.calculateTotal();
-        this.calculateTotalQuantity();
+      this.calculateTotal();
+      this.calculateTotalQuantity();
+    });
+  }
+
+  purchase(paymentMethod:string) {
+    this.buySaleReq.paymentMethod = paymentMethod;
+    this.buySaleReq.items = this.selectedProducts;
+    this.sellService.confirm(this.buySaleReq).subscribe({
+      next: (res) => {
+        this.snackbar.success("Sale has been successfully done");
+        this.selectedProducts = [];
+        this.quantity = 0;
+        this.total = 0;
+      },
+      error: (err) => {
+        this.snackbar.error(err?.error?.message);
       }
-    }
-    calculateTotal() {
-      this.total = this.selectedProducts.reduce((acc, item) => acc + (item.pricePerUnit * item.quantity), 0);
-      if (this.includeTex) {
-        this.total += this.total * 0.15; // Assuming 15% tax
-      }
-    }
-    calculateTotalQuantity() {
-      this.quantity = this.selectedProducts.reduce((acc, item) => acc + item.quantity, 0);
-    }
-    
-    removeItem(itemId: number) {
-      this.selectedProducts.forEach(id => {
-        const index = this.selectedProducts.findIndex(item => item.itemId === itemId);
-        if (index !== -1) {
-          this.selectedProducts.splice(index, 1);
-        }
-        this.calculateTotal();
-        this.calculateTotalQuantity();
-      });
-    }
-  
-    purchase(paymentMethod:string) {
-      this.buySaleReq.paymentMethod = paymentMethod;
-      this.buySaleReq.items = this.selectedProducts;
-      this.sellService.confirm(this.buySaleReq).subscribe({
-        next: (res) => {
-          this.snackbar.success("Sale has been successfully done");
-          this.selectedProducts = [];
-          this.quantity = 0;
-          this.total = 0;
-        },
-        error: (err) => {
-          this.snackbar.error(err?.error?.message);
-        }
-      })
-    }
+    })
+  }
 }

@@ -6,6 +6,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ServerErrorComponent } from './shared/components/server-error/server-error.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { inject } from '@angular/core';
+import { InitServiceService } from './core/service/init-service.service';
 
 export const routes: Routes = [
     {
@@ -21,7 +23,12 @@ export const routes: Routes = [
         path:'',
         component:LayoutComponent,
         children:[
-            {path: 'dashboard', component: DashboardComponent},
+            {
+                path: 'dashboard', component: DashboardComponent,
+                resolve :{
+                            location : () => inject(InitServiceService).getLocations(),
+                        },
+            },
             {
                 path: 'inventory',
                 loadChildren: async () => {

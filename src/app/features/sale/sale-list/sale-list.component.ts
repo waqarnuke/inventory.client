@@ -5,6 +5,7 @@ import { Pagination } from '../../../shared/model/pagination';
 import { BehaviorSubject } from 'rxjs';
 import { SaleTransactionDto } from '../../../shared/model/saleTransactionDto';
 import { CurrencyPipe, DatePipe, NgFor, NgIf } from '@angular/common';
+import { InitServiceService } from '../../../core/service/init-service.service';
 
 @Component({
   selector: 'app-sale-list',
@@ -13,8 +14,13 @@ import { CurrencyPipe, DatePipe, NgFor, NgIf } from '@angular/common';
   styleUrl: './sale-list.component.scss'
 })
 export class SaleListComponent {
+
   sales: SaleTransactionDto[] = [];
+  locationId: number = 0;
+
   saleService = inject(SaleService)
+  initService = inject(InitServiceService);
+  
   private _sale = new BehaviorSubject<Pagination<SaleTransactionDto>>({
         data: [],
         totalCount: 0,
@@ -22,8 +28,15 @@ export class SaleListComponent {
         pageSize: 10
       });
   
-      sale$ = this._sale.asObservable(); 
-  constructor() { }
+  sale$ = this._sale.asObservable(); 
+  
+  constructor() { 
+    this.initService.locationId$.subscribe({
+      next:res => {
+        this.locationId = res as number;
+      } 
+    }) 
+  }
 
   ngOnInit(): void {
     this.load();
@@ -31,7 +44,7 @@ export class SaleListComponent {
   }
 
   load() {
-    this.saleService.getSaleByTransaction(0,20).subscribe({
+    this.saleService.getSaleByTransaction(this.locationId,0,20).subscribe({
       next: (sale) => {
         this.sales = sale.data.map(s => ({ ...s, showDetails: false }));
         this._sale.next(sale);
