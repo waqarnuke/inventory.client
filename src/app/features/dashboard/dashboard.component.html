@@ -7,8 +7,56 @@
 </div>  -->
 <div class="container-fluid mt-0"> <!-- Bootstrap margin-top class -->
     <div class="row">
-        <div class="col-md-12 text-center bg-body-tertiary p-5 p-md-4 m-md-0">
-            <h1>Dashboard</h1>
+        <div class="col-md-12 text-left bg-body-tertiary p-2 p-md-2 m-md-0">
+            <div class="d-flex justify-content-start ps-3" >
+                <h2>Dashboard</h2>
+            </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-left bg-body-tertiary p-2 p-md-2 m-md-0">
+            <div class="d-flex justify-content-start ps-3" >
+                <h4>Welcome {{accountService.currentUser()?.email}}</h4>
+            </div>
+        </div>
+        @if(summary)
+        {
+            <div class="col-sm-3 col-lg-3 p-1" >
+                <div class="card summary-card">
+                    <div class="d-flex justify-content-between">
+                        <div class="summary-title">Summary</div>
+                    </div>
+                    <div class="text-center my-3">
+                        <div class="task-count">{{summary.registerCashBalance | currency }} </div>
+                            <div class="task-label task-count">Register</div>
+                            <div class="completed task-count">Completed: <strong>13</strong></div>
+                    </div>
+                </div>        
+            </div>
+            <div class="col-sm-3 col-lg-3 p-1">
+                <div class="card summary-card">
+                    <div class="d-flex justify-content-between">
+                        <div class="summary-title">Summary</div>
+                    </div>
+                    <div class="text-center my-3">
+                        <div class="task-count">{{summary.totalBuying| currency }} </div>
+                        <div class="task-label task-count">Total Buying</div>
+                        <div class="completed">Completed: <strong>13</strong></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-lg-3 p-1" >
+                <div class="card summary-card">
+                    <div class="d-flex justify-content-between">
+                        <div class="summary-title">Summary</div>
+                    </div>
+                    <div class="text-center my-3">
+                        <div class="task-count">{{summary.totalSales| currency }} </div>
+                        <div class="task-label task-count">Total Selling</div>
+                        <div class="completed">Completed: <strong>13</strong></div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>  

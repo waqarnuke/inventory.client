@@ -12,6 +12,7 @@ import { Supplier } from '../../shared/model/supplier';
 import { buyingItem } from '../../shared/model/buyingItem';
 import { BuySaleItem } from '../../shared/model/buySaleItem';
 import { InitServiceService } from './init-service.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class inventoryService {
   // products$ = this._products.asObservable();
   
   httpClient = inject(HttpClient) 
-  baseUrl = "https://localhost:5001/api/";
+  baseUrl = environment.imsApiUrl;
   constructor() 
   {
   }

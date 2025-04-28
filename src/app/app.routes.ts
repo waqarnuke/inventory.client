@@ -8,6 +8,8 @@ import { ServerErrorComponent } from './shared/components/server-error/server-er
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { inject } from '@angular/core';
 import { InitServiceService } from './core/service/init-service.service';
+import { RegisterComponent } from './pages/register/register.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -20,11 +22,15 @@ export const routes: Routes = [
         component:LoginComponent
     },
     {
+        path:'register',
+        component:RegisterComponent
+    },
+    {
         path:'',
         component:LayoutComponent,
         children:[
             {
-                path: 'dashboard', component: DashboardComponent,
+                path: 'dashboard', component: DashboardComponent, canActivate: [authGuard],
                 resolve :{
                             location : () => inject(InitServiceService).getLocations(),
                         },

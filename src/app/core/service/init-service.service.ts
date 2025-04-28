@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { Location } from '../../shared/model/location';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InitServiceService {
 
-  baseUrl = "https://localhost:5001/api/";
+  baseUrl = environment.imsApiUrl; 
   httpClient = inject(HttpClient);
   
   private _location = new BehaviorSubject<Location[]>([]);
@@ -24,18 +25,10 @@ export class InitServiceService {
     return this.httpClient.get<Location[]>(this.baseUrl + 'location')
         .subscribe({
           next:res =>{
-            console.log(res)
             this._location.next(res);
             this.setLocation(res[0].id);
           }
         })
-      // .pipe(
-      //     tap((location) =>
-      //     {
-      //       console.log(location)
-      //       this._location.next(location);
-      //     })
-      //   ); 
   }
 
   setLocation(id: number ) {  

@@ -6,7 +6,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { MatButton } from '@angular/material/button';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { BusyService } from '../../core/service/busy.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { InitServiceService } from '../../core/service/init-service.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Location } from '../../shared/model/location';
+import { AccountService } from '../../core/service/account.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -25,8 +26,10 @@ import { Location } from '../../shared/model/location';
 })
 export class SidenavComponent {
 
+  accoutService = inject(AccountService);
   iniService = inject(InitServiceService);
   busyService = inject(BusyService); 
+  private router = inject(Router);
 
   showFiller = true;
   isMobile: boolean = window.innerWidth < 768;
@@ -98,6 +101,18 @@ export class SidenavComponent {
   onLocationChange(locationId: any) {
     const value = locationId.target.value;
     this.iniService.setLocation(value)
+  }
+
+  logout() {
+    this.accoutService.logout().subscribe({
+      next: res => {
+        this.accoutService.currentUser.set(null);
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
   }
 
 }

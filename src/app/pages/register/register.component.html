@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row min-vh-100">
+        <!-- Left Side -->
+        <div class="col-lg-7 d-flex flex-column justify-content-center align-items-start p-5 text-white" style="background-color: #0e1a2b;">
+            <h1 class="fw-bold">Welcome to<br>our community</h1>
+            <p class="mt-3">Fuse helps developers to build organized and well coded dashboards full of beautiful and rich modules. Join us and start building your application today.</p>
+            <div class="d-flex align-items-center mt-4">
+                <div class="d-flex">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle border border-white me-1" width="40" height="40" alt="Avatar">
+                    <img src="https://randomuser.me/api/portraits/men/46.jpg" class="rounded-circle border border-white me-1" width="40" height="40" alt="Avatar">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle border border-white me-1" width="40" height="40" alt="Avatar">
+                    <img src="https://randomuser.me/api/portraits/men/47.jpg" class="rounded-circle border border-white" width="40" height="40" alt="Avatar">
+                </div>
+                <span class="ms-3">More than 17k people joined us, it's your turn</span>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="col-lg-5 d-flex flex-column justify-content-center align-items-center p-5">
+            <div class="bg-white p-4 rounded-3 shadow w-100" style="max-width: 400px;">
+                <div class="text-center mb-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="Logo" width="40">
+                    <h2 class="mt-2">Sign up</h2>
+                    <p>Already have an account? <a href="#">Sign in</a></p>
+                </div>
+
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" formControlName="firstName" class="form-control" placeholder="Enter first name">
+                        <div *ngIf="registerForm.controls['firstName']?.touched && registerForm.controls['firstName']?.invalid ">
+                            <span class="text-danger">
+                                <small *ngIf="registerForm.controls['firstName']?.errors?.['required']">First name is required.</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="email" formControlName="lastName" class="form-control" placeholder="Enter last name">
+                        <div *ngIf="registerForm.controls['lastName']?.touched && registerForm.controls['lastName']?.invalid ">
+                            <span class="text-danger">
+                                <small *ngIf="registerForm.controls['lastName']?.errors?.['required']">Last name is required.</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" formControlName="email"  class="form-control" placeholder="Enter your password">
+                        <div *ngIf="registerForm.controls['email']?.touched && registerForm.controls['email']?.invalid ">
+                            <span class="text-danger">
+                                <small *ngIf="registerForm.controls['email']?.errors?.['required']">Email is required.</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" formControlName="password"  class="form-control" placeholder="Enter your password">
+                        <div *ngIf="registerForm.controls['password']?.touched && registerForm.controls['password']?.invalid ">
+                            <span class="text-danger">
+                                <small *ngIf="registerForm.controls['password']?.errors?.['required']">Password is required.</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="termsCheck">
+                        <label class="form-check-label" for="termsCheck">
+                            I agree with <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+                    @if(validationErrors) { 
+                        <div class="mb-3 p-4 bg-red text-danger alert alert-danger" role="alert">
+                            <ul class="list ">
+                                @for(error of validationErrors; track $index) {
+                                    <li>{{ error }}</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    <button type="submit"  [disabled]="registerForm.invalid" class="btn btn-primary w-100 rounded-pill">Create your free account</button>
+                </form>
+            </div>
+        </div>
+        <pre class="text-center mt-4" style="color: #0e1a2b;">
+            Form values : {{ registerForm.value | json }}
+        </pre>
+    </div>
+</div>

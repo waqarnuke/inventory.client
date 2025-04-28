@@ -57,6 +57,13 @@
                     <button mat-icon-button>
                         <mat-icon>account_circle</mat-icon>
                     </button>
+                    @if(accoutService.currentUser())
+                    {
+                        <button mat-icon-button (click)="logout()">
+                            <mat-icon >logout</mat-icon>
+                        </button>
+                    }
+                    
                 </div>
             </mat-toolbar>
             <div style="flex-grow:1; overflow-y: auto;">

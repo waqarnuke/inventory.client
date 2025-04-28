@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { BuySaleRequestDto } from '../../shared/model/buySaleRequestDto';
 import { SaleTransactionDto } from '../../shared/model/saleTransactionDto';
 import { Pagination } from '../../shared/model/pagination';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Pagination } from '../../shared/model/pagination';
 export class SaleService {
 
   httpClient = inject(HttpClient);
-  baseUrl = "https://localhost:5001/api/";
+  baseUrl = environment.imsApiUrl;
 
   constructor() { }
 
