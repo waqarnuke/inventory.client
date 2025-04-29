@@ -30,10 +30,7 @@ export const routes: Routes = [
         component:LayoutComponent,
         children:[
             {
-                path: 'dashboard', component: DashboardComponent, canActivate: [authGuard],
-                resolve :{
-                            location : () => inject(InitServiceService).getLocations(),
-                        },
+                path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]
             },
             {
                 path: 'inventory',

@@ -15,6 +15,7 @@ import { InitServiceService } from '../../core/service/init-service.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Location } from '../../shared/model/location';
 import { AccountService } from '../../core/service/account.service';
+import { DashboardService } from '../../core/service/dashboard.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -30,6 +31,7 @@ export class SidenavComponent {
   iniService = inject(InitServiceService);
   busyService = inject(BusyService); 
   private router = inject(Router);
+  private dashboardService = inject(DashboardService);  
 
   showFiller = true;
   isMobile: boolean = window.innerWidth < 768;
@@ -70,17 +72,39 @@ export class SidenavComponent {
     {route: 'Settings', icon: 'settings' , label:'Settings'}
   ];
   
+  stores: any[] = [];  
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   selectedLocation : number = 0; 
   //location:Location[]=[];
 
   constructor() {
-    
+    if (this.accoutService.currentUser()) {
+      const userId = this.accoutService.currentUser().id;
+      this.iniService.getLocations(userId);
+      this.dashboardService.summary(1);
+      // this.iniService.getLocations(userId).subscribe({
+      //   next: res => {
+      //     console.log(res); // Check kya aa raha hai
+  
+      //     this.stores = res.locations;
+      //     console.log(this.stores);
+  
+      //     if (this.stores.length > 0) {
+      //       this.selectedLocation = this.stores[0].id;
+      //       this.iniService.setLocation(this.stores[0].id);
+      //     }
+      //   },
+      //   error: err => {
+      //     console.log(err);
+      //   }
+      // });
+    }
   }
   ngAfterViewInit() {
   }
-  ngOnInit() {    
-    this.iniService.getLocations();
+
+  ngOnInit() {   
     
     
   }
@@ -99,8 +123,10 @@ export class SidenavComponent {
   }
 
   onLocationChange(locationId: any) {
+    console.log("locationId", locationId.target.value);
     const value = locationId.target.value;
     this.iniService.setLocation(value)
+    this.dashboardService.summary(value);
   }
 
   logout() {

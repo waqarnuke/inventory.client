@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { Location } from '../../shared/model/location';
 import { environment } from '../../../environments/environment';
+import { Company } from '../../shared/model/company';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,23 @@ export class InitServiceService {
   constructor() { }
 
 
-  getLocations(){
-    return this.httpClient.get<Location[]>(this.baseUrl + 'location')
+  getLocations(userid:string){
+    let httpParams  =  new HttpParams()
+              .set('userid', userid);
+              
+    return this.httpClient.get<Company>(this.baseUrl + 'company',{params: httpParams })
+    // .pipe(
+    //   map(res => {
+    //     this.setLocation(res.locations[0].id);
+    //     return res;
+
+    //   }),
+    // )
         .subscribe({
           next:res =>{
-            this._location.next(res);
-            this.setLocation(res[0].id);
+            console.log(res);
+            this._location.next(res.locations);
+            this.setLocation(res.locations[0].id);
           }
         })
   }
