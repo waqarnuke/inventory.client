@@ -4,7 +4,7 @@ import { DashboardService } from '../../core/service/dashboard.service';
 import { DashboadSummaryDto } from '../../shared/model/dashboadSummaryDto';
 import { AccountService } from '../../core/service/account.service';
 import { User } from '../../shared/model/user';
-import { InitServiceService } from '../../core/service/init-service.service';
+import { MainService } from '../../core/service/main.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +16,7 @@ export class DashboardComponent {
 
   private dashboardService = inject(DashboardService);
   public accountService = inject(AccountService);
-  private initService = inject(InitServiceService);
+  private mainService = inject(MainService);
 
   summary: DashboadSummaryDto = {} as DashboadSummaryDto;
   user: User = {} as User;
@@ -24,7 +24,7 @@ export class DashboardComponent {
   constructor() { }
 
   ngOnInit(): void {
-    this.initService.locationId$.subscribe({
+    this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
         console.log(this.locationId )
@@ -37,15 +37,6 @@ export class DashboardComponent {
         console.log(res);
       }
     )
-    //this.getSummary();
   }
 
-  // getSummary() {
-  //   this.dashboardService.summary(1).subscribe({
-  //     next: res => {
-  //       this.summary = res;
-  //       console.log(this.summary);
-  //     }
-  //   })
-  // }
 }

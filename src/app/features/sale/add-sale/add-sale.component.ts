@@ -1,9 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {debounceTime, map, startWith, switchMap} from 'rxjs/operators';
-import {AsyncPipe, CommonModule, NgFor} from '@angular/common';
+import {debounceTime,switchMap} from 'rxjs/operators';
+import {CommonModule, NgFor} from '@angular/common';
 import {MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -15,7 +13,7 @@ import { BuySaleRequestDto } from '../../../shared/model/buySaleRequestDto';
 import { BuySaleItem } from '../../../shared/model/buySaleItem';
 import { SaleService } from '../../../core/service/sale.service';
 import { CartProductComponent } from '../../../shared/components/product/cart-product/cart-product.component';
-import { InitServiceService } from '../../../core/service/init-service.service';
+import { MainService } from '../../../core/service/main.service';
 
 @Component({
   selector: 'app-add-sale',
@@ -36,7 +34,7 @@ import { InitServiceService } from '../../../core/service/init-service.service';
 export class AddSaleComponent {
   private snackbar = inject(SnackbarService)
   inventoryService = inject(inventoryService)
-  initService = inject(InitServiceService);
+  mainService = inject(MainService);
 
   buySaleReq: BuySaleRequestDto = {
     paymentMethod: "",
@@ -55,7 +53,7 @@ export class AddSaleComponent {
   includeTex: boolean = false;
 
   constructor() {
-    this.initService.locationId$.subscribe({
+    this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
         console.log(this.locationId )

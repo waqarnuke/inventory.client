@@ -1,6 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {AsyncPipe, NgFor} from '@angular/common';
 import { inventoryService } from '../../../core/service/inventory.service';
 import { product } from '../../../shared/model/product';
 import { MatDialog } from '@angular/material/dialog';

@@ -48,7 +48,7 @@
                 <span>Logo</span>
                 <span class="container-spacer"></span>
                 <div class="d-flex align-items-center">
-                    <ng-container *ngIf="iniService.location$ | async as loc">
+                    <ng-container *ngIf="mainService.location$ | async as loc">
                         <select *ngIf="loc" class="form-select" (change)="onLocationChange($event)">
                             <option *ngFor="let option of loc" [value]="option.id">{{ option.locationName }}</option>
                         </select>

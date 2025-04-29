@@ -1,5 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { SnackbarService } from '../../../core/service/snackbar.service';

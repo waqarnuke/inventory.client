@@ -8,7 +8,7 @@ import { Company } from '../../shared/model/company';
 @Injectable({
   providedIn: 'root'
 })
-export class InitServiceService {
+export class MainService {
 
   baseUrl = environment.imsApiUrl; 
   httpClient = inject(HttpClient);

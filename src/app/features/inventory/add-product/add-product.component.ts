@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject, OnChanges, OnInit, SimpleChanges } fr
 import { inventoryService } from '../../../core/service/inventory.service';
 import { Brand } from '../../../shared/model/brand';
 import { Subject, takeUntil } from 'rxjs';
-import { NgFor, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { NgFor, NgIf} from '@angular/common';
 import { MobileNetwork } from '../../../shared/model/mobileNetwork';
 import { Model } from '../../../shared/model/model';
 import { Storage } from '../../../shared/model/storage';
@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { image } from '../../../shared/model/image';
 import { MatTableModule } from '@angular/material/table';
 import { Supplier } from '../../../shared/model/supplier';
-import { InitServiceService } from '../../../core/service/init-service.service';
+import { MainService } from '../../../core/service/main.service';
 
 @Component({
   selector: 'app-add-product',
@@ -27,7 +27,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
   activatedRoute = inject(ActivatedRoute);  
   private inventoryService = inject(inventoryService)
   private snackbar = inject(SnackbarService)
-  private initService = inject(InitServiceService)
+  private mainService = inject(MainService)
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   
   brands:Brand[];
@@ -62,7 +62,7 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     private _inventoryService:inventoryService,
     private fb:FormBuilder
   ) {
-    this.initService.locationId$.subscribe({
+    this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
         console.log(this.locationId )
@@ -75,26 +75,26 @@ export class AddProductComponent implements OnInit,AfterViewInit {
     this.model =[]
     this.images = [];
     this.productDetailForm = this.fb.group({
-      title : this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
+      title : this.fb.control({value:'',disabled:false},[Validators.required]),
       description:['',[Validators.maxLength(100)] ],
-      emi:this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required, Validators.maxLength(25)] ],
+      emi:this.fb.control({value:'',disabled:false},[Validators.required]),
       price:['',[Validators.required] ],
       stock:['',[Validators.required] ],
-      color:this.fb.control({value:'',disabled:false},[Validators.required]),//['',[Validators.required] ],
-      condition: this.fb.control({value:'',disabled:false},[Validators.required]),//['',[Validators.required] ],
-      modelId: this.fb.control({value:'',disabled:false},[Validators.required]),//['',[Validators.required] ],
-      brandId: this.fb.control({value:'',disabled:false},[Validators.required]),//['',[Validators.required] ],
-      storageId:this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
-      mobileNetworkId: this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
-      itemTypeId: this.fb.control({value:[1],disabled:false},[Validators.required]),//['1'],
-      locationId:this.fb.control({value:this.locationId,disabled:false},[Validators.required]),//['1'],//['1'],
+      color:this.fb.control({value:'',disabled:false},[Validators.required]),
+      condition: this.fb.control({value:'',disabled:false},[Validators.required]),
+      modelId: this.fb.control({value:'',disabled:false},[Validators.required]),
+      brandId: this.fb.control({value:'',disabled:false},[Validators.required]),
+      storageId:this.fb.control({value:'',disabled:false},[Validators.required]), 
+      mobileNetworkId: this.fb.control({value:'',disabled:false},[Validators.required]), 
+      itemTypeId: this.fb.control({value:[1],disabled:false},[Validators.required]),
+      locationId:this.fb.control({value:this.locationId,disabled:false},[Validators.required]),
       userId:['1'],
       id:[0],
       images:[],
       supplierId: this.fb.control({value:'0',disabled:false})
     });
 
-    this.imageStepForm = this.fb.group({}); // initially empty
+    this.imageStepForm = this.fb.group({}); 
   }
   
   

@@ -1,11 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { SaleService } from '../../../core/service/sale.service';
 import { Pagination } from '../../../shared/model/pagination';
 import { BehaviorSubject } from 'rxjs';
 import { SaleTransactionDto } from '../../../shared/model/saleTransactionDto';
 import { CurrencyPipe, DatePipe, NgFor, NgIf } from '@angular/common';
-import { InitServiceService } from '../../../core/service/init-service.service';
+import { MainService } from '../../../core/service/main.service';
 
 @Component({
   selector: 'app-sale-list',
@@ -19,7 +18,7 @@ export class SaleListComponent {
   locationId: number = 0;
 
   saleService = inject(SaleService)
-  initService = inject(InitServiceService);
+  mainService = inject(MainService);
   
   private _sale = new BehaviorSubject<Pagination<SaleTransactionDto>>({
         data: [],
@@ -31,7 +30,7 @@ export class SaleListComponent {
   sale$ = this._sale.asObservable(); 
   
   constructor() { 
-    this.initService.locationId$.subscribe({
+    this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
       } 
@@ -40,7 +39,6 @@ export class SaleListComponent {
 
   ngOnInit(): void {
     this.load();
-   
   }
 
   load() {
