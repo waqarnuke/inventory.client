@@ -7,7 +7,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, FormsModule, RouterLink,JsonPipe,NgIf],
+  imports: [ReactiveFormsModule, FormsModule,JsonPipe,NgIf],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

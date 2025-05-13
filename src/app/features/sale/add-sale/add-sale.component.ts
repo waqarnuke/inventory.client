@@ -51,23 +51,24 @@ export class AddSaleComponent {
   quantity: number = 0;
   total: number = 0;
   includeTex: boolean = false;
+  maxQuantity : number = 0;
 
   constructor() {
     this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
-        console.log(this.locationId )
       } 
     }) 
   }
+  
   ngOnInit(): void {
     this.calculateTotal();
     this.calculateTotalQuantity();
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
-      switchMap(value => this.inventoryService.searchProduct(value || '')),
+      switchMap(value => this.inventoryService.searchProduct(value)),
     ).subscribe(products => {
-      this.filteredProducts = products;
+      this.filteredProducts = products ?? [];
     });
   }
 
@@ -79,7 +80,6 @@ export class AddSaleComponent {
     this.selectedProduct = product;
     this.searchControl.setValue(product.title);
     this.showDropdown = false;
-    console.log('Selected product:', product);
   }
   
   hideDropdown() {
@@ -87,17 +87,18 @@ export class AddSaleComponent {
   }
 
   addToCart(product: BuySaleItem) {
+    this.maxQuantity = product.quantity;
     product.quantity = 1;
     this.selectedProducts.push(product);
-    this.searchControl.setValue('');
     this.filteredProducts = [];
     this.quantity = this.selectedProducts.reduce((total, item) => total + item.quantity, 0);
     this.total = this.selectedProducts.reduce((total, item) => total + (item.pricePerUnit * item.quantity), 0);
-    this.locationId = this.locationId;
+    this.locationId = product.locationId;
+    //this.searchControl.setValue('');
   }
   
   decreaseQuantity(item: number) {
-    console.log('Decrease quantity for item:', item);
+    
     const index = this.selectedProducts.findIndex(i => i.itemId === item);
     if (index !== -1) {
       this.selectedProducts[index].quantity--;

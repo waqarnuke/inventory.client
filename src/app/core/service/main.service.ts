@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { Location } from '../../shared/model/location';
 import { environment } from '../../../environments/environment';
@@ -19,6 +19,11 @@ export class MainService {
   private _locationId = new BehaviorSubject<Number | null>(null);
   locationId$ = this._locationId.asObservable();
 
+  private _company = new BehaviorSubject<Company | null>(null);
+  company$ = this._company.asObservable();
+
+  currrentCompany = signal<any>(null);
+
   constructor() { }
 
 
@@ -27,20 +32,14 @@ export class MainService {
               .set('userid', userid);
               
     return this.httpClient.get<Company>(this.baseUrl + 'company',{params: httpParams })
-    // .pipe(
-    //   map(res => {
-    //     this.setLocation(res.locations[0].id);
-    //     return res;
-
-    //   }),
-    // )
-        .subscribe({
-          next:res =>{
-            console.log(res);
-            this._location.next(res.locations);
-            this.setLocation(res.locations[0].id);
-          }
-        })
+      .subscribe({
+        next:res =>{
+          this.currrentCompany.set(res);
+          this._company.next(res);
+          this._location.next(res.locations);
+          this.setLocation(res.locations[0].id);
+        }
+      })
   }
 
   setLocation(id: number ) {  

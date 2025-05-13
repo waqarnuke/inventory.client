@@ -27,14 +27,12 @@ export class DashboardComponent {
     this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
-        console.log(this.locationId )
       } 
     })
     this.user = this.accountService.currentUser();
     this.dashboardService.summary$.subscribe( 
       res => {
         this.summary = res as DashboadSummaryDto;
-        console.log(res);
       }
     )
   }

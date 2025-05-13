@@ -25,16 +25,11 @@ export class AccountService {
   getUserInfo() {
     return this.http.get<User>(this.baseUrl + 'account/user-Info').pipe(
       map(user => {
+        // console.log(user);
         this.currentUser.set(user);
         return user;
       })
     )
-    
-    // .subscribe({
-    //   next: res => {
-    //     this.currentUser.set(res);
-    //   }
-    // })
   }
 
   logout() {

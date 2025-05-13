@@ -47,7 +47,6 @@ export class AddBuyComponent implements OnInit {
   {
     this.inventoryService.addBuyingProduct(product).subscribe({
       next: (res) => {
-        console.log(res)
         this.snackbar.success("Product added to cart successfully");
         this.buyingItem.push(res)
         this.quantity = this.buyingItem.reduce((total, item) => total + item.quantity, 0);
@@ -62,7 +61,6 @@ export class AddBuyComponent implements OnInit {
   purchase(paymentMethod:string) {
     this.buyingItemRequest.paymentMethod = paymentMethod;
     this.buyingItemRequest.Items = this.buyingItem;
-    console.log(this.buyingItem);
     this.buyingService.confirm(this.buyingItemRequest).subscribe({
       next: (res) => {
         this.snackbar.success("Product added to cart successfully");
@@ -77,23 +75,11 @@ export class AddBuyComponent implements OnInit {
   }
 
   removeItem(itemId: number) {
-    //const itme  = this.buyingItem.filter(item => item.itemId === itemId);
     this.buyingItem.forEach(id => {
       const index = this.buyingItem.findIndex(item => item.itemId === itemId);
       if (index !== -1) {
         this.buyingItem.splice(index, 1);
       }
     });
-    // let confirmDelete = confirm('Are you sure you want to delete?');
-    // if (confirmDelete)
-    // {
-    //   this.buyingService.removeItem(item).subscribe({
-    //     next: res => {
-    //       this.snackbar.success ("product saved successfully" );
-    //     }
-    //   });
-      
-    // }
-    // console.log('Delete:', item);
   }
 }

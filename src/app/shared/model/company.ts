@@ -1,6 +1,7 @@
 import { Location } from './location';
 export type Company = {
     id: number;
-    name: string;
+    companyName: string;
     locations: Location[];
+    userId? :string
 }

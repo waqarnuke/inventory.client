@@ -13,6 +13,7 @@ import { Supplier } from '../../../model/supplier';
 import { Storage } from '../../../model/storage';
 import { inventoryService } from '../../../../core/service/inventory.service';
 import { product } from '../../../model/product';
+import { MainService } from '../../../../core/service/main.service';
 
 @Component({
   selector: 'app-create-product',
@@ -26,6 +27,7 @@ export class CreateProductComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   private _inventoryService = inject(inventoryService);
+  private mainService = inject(MainService)
   productDetailForm: FormGroup = new FormGroup({}); 
 
   brands:Brand[] = [];
@@ -34,8 +36,22 @@ export class CreateProductComponent implements OnInit {
   model:Model[] = [];
   images:image[] = [];
   supplier:Supplier[] = [];
+  locationId: number = 0; 
 
   constructor(private fb:FormBuilder) {
+    this.loadForm();
+    this.mainService.locationId$.subscribe({
+      next:res => {
+        this.locationId = res as number;
+        let setLocationId = this.productDetailForm.get('locationId');
+        setLocationId?.setValue(this.locationId);
+      } 
+    })
+    
+  }
+
+  loadForm()
+  {
     this.productDetailForm = this.fb.group
     ({
       title : this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
@@ -50,7 +66,7 @@ export class CreateProductComponent implements OnInit {
       storageId:this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
       mobileNetworkId: this.fb.control({value:'',disabled:false},[Validators.required]), //['',[Validators.required] ],
       itemTypeId: this.fb.control({value:1,disabled:false},[Validators.required]),//['1'],
-      locationId:[1],
+      locationId:this.locationId,
       userId:['1'],
       id:[0],
       images:[],
@@ -58,8 +74,6 @@ export class CreateProductComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-
-    this.disableValidation();
     //Get brands
     this._inventoryService.brands$
           .pipe(takeUntil(this._unsubscribeAll))
@@ -104,6 +118,8 @@ export class CreateProductComponent implements OnInit {
               this.supplier = res
             } //
           })
+
+    this.disableValidation();
   }
 
   formEntity()
@@ -178,8 +194,8 @@ export class CreateProductComponent implements OnInit {
     this.productDetailForm.reset();
     let itemTypeId = this.productDetailForm.get('itemTypeId');
     itemTypeId?.setValue(1);
-    let locationId = this.productDetailForm.get('locationId');
-    locationId?.setValue(1);
+    let setLocationId = this.productDetailForm.get('locationId');
+    setLocationId?.setValue(this.locationId);
     let supplierId = this.productDetailForm.get('supplierId');
     supplierId?.setValue(1);
     this.disableValidation();

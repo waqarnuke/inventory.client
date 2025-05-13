@@ -5,15 +5,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
-import { MatButton } from '@angular/material/button';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { BusyService } from '../../core/service/busy.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MainService } from '../../core/service/main.service';
-import { Subject, takeUntil } from 'rxjs';
-import { Location } from '../../shared/model/location';
 import { AccountService } from '../../core/service/account.service';
 import { DashboardService } from '../../core/service/dashboard.service';
 
@@ -38,6 +35,7 @@ export class SidenavComponent {
   
   menuItems : any[] = [
     {route: 'dashboard', icon: 'dashboard', label:'Dashboard'},
+    {route: 'company', icon: 'Dashboard', label:'Organization '},
     {
       route: null, 
       icon: 'shopping_bag', 
@@ -97,7 +95,6 @@ export class SidenavComponent {
   }
 
   onLocationChange(locationId: any) {
-    console.log("locationId", locationId.target.value);
     const value = locationId.target.value;
     this.mainService.setLocation(value)
     this.dashboardService.summary(value);

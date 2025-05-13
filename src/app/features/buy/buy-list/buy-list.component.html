@@ -14,14 +14,24 @@
     </div>
     <div class="row">
         <div class="col-12" *ngIf="buying$ | async as buyingList">
-            <div  class="h-100 p-2 mt-2 bg-body-tertiary border rounded-3" *ngIf="buyingList.totalCount > 0">
-                <app-generic-table 
-                [columns] = "columns"
-                [data]="buying$"
-                (page)="onPageChange($event)"
-                >
-                </app-generic-table>
-            </div>    
+            @if(buyingList.totalCount > 0)
+            {
+                <div  class="h-100 p-2 mt-2 bg-body-tertiary border rounded-3">
+                    <app-generic-table 
+                    [columns] = "columns"
+                    [data]="buying$"
+                    (page)="onPageChange($event)"
+                    >
+                    </app-generic-table>
+                </div>    
+            }
+            @else {
+                <div  class="h-100 p-2 mt-2 bg-body-tertiary border rounded-3">
+                    <div class="alert alert-info" role="alert">
+                        No data found.
+                    </div>
+                </div>    
+            }
         </div>
     </div>
 </div>

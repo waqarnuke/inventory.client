@@ -33,12 +33,9 @@ export class SaleListComponent {
     this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
+        this.load();
       } 
     }) 
-  }
-
-  ngOnInit(): void {
-    this.load();
   }
 
   load() {

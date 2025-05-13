@@ -1,11 +1,7 @@
-<div style="height: 2px;">
-    @if(busyService.loading()) 
-    {
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    }
-</div>
-
-
+@if(busyService.loading()) 
+{
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
     <mat-sidenav-container >
         <mat-sidenav #sidenav mode="side" opened [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" >
             <mat-nav-list>
@@ -50,7 +46,7 @@
                 <div class="d-flex align-items-center">
                     <ng-container *ngIf="mainService.location$ | async as loc">
                         <select *ngIf="loc" class="form-select" (change)="onLocationChange($event)">
-                            <option *ngFor="let option of loc" [value]="option.id">{{ option.locationName }}</option>
+                            <option *ngFor="let option of loc" [value]="option.id">{{ option.name }}</option>
                         </select>
                     </ng-container>
                     

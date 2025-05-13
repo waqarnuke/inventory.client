@@ -7,6 +7,7 @@ import { ServerErrorComponent } from './shared/components/server-error/server-er
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './core/guards/auth.guard';
+import { CompanyComponent } from './features/company/company.component';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,13 @@ export const routes: Routes = [
         children:[
             {
                 path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]
+            },
+            {
+                path:'company',
+                loadChildren: async () => {
+                    const module = await import('./features/company/company.routes');
+                    return module.companyRoutes;
+                } 
             },
             {
                 path: 'inventory',

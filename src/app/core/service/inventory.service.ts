@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Brand } from '../../shared/model/brand';
 import { Model } from '../../shared/model/model';
 import { MobileNetwork } from '../../shared/model/mobileNetwork';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Storage } from '../../shared/model/storage';
 import { Pagination } from '../../shared/model/pagination';
 import { product } from '../../shared/model/product';
@@ -148,8 +148,11 @@ export class inventoryService {
     return this.httpClient.delete(this.baseUrl + 'item/deletephoto/' + id);
   }
 
-  searchProduct(search:string)
+  searchProduct(search:string) :Observable<BuySaleItem[]>
   {
+    if (!search || search.trim().length < 3) {
+      return of([]); // No API call, empty result for dropdown
+    }
     let httpParams  =  new HttpParams()
     .set('query', search)
 
@@ -157,8 +160,6 @@ export class inventoryService {
   }
 
   addBuyingProduct(product:product){
-    console.log(product);
-    //return product;
     return this.httpClient.post<BuySaleItem>(this.baseUrl + 'item/CreateByingItem', product);
   }
   //

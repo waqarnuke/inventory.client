@@ -6,6 +6,7 @@ import { BuyService } from '../../../core/service/buy.service';
 import { Pagination } from '../../../shared/model/pagination';
 import { buyingItemDto } from '../../../shared/model/buyingItem';
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
+import { MainService } from '../../../core/service/main.service';
 
 
 
@@ -18,6 +19,8 @@ import { GenericTableComponent } from '../../../shared/components/generic-table/
 export class BuyListComponent {
   private snackbar = inject(SnackbarService)
   bindingService = inject(BuyService);
+  private mainService = inject(MainService)
+  locationId: number = 0; 
   private _buying = new BehaviorSubject<Pagination<buyingItemDto>>({
       data: [],
       totalCount: 0,
@@ -37,12 +40,19 @@ export class BuyListComponent {
       { key: 'locationName', label: 'Location', visible:true }
     ]
 
-    ngOnInit(): void {
-      this.load();
+    constructor() { 
+      this.mainService.locationId$.subscribe({
+        next:res => {
+          this.locationId = res as number;
+          this.load();
+        } 
+      })
+      
     }
+    
 
     load() {
-      this.bindingService.getAllByingWithPagination(0,20).subscribe({
+      this.bindingService.getAllByingWithPagination(this.locationId,0,20).subscribe({
         next: (buying) => {
           this._buying.next(buying);
         }
@@ -50,7 +60,7 @@ export class BuyListComponent {
     }
 
     onPageChange(event: any) {
-      this.bindingService.getAllByingWithPagination(event.pageIndex, event.pageSize).subscribe({
+      this.bindingService.getAllByingWithPagination(this.locationId,event.pageIndex, event.pageSize).subscribe({
         next: (buying) => {
           this._buying.next(buying);
         }

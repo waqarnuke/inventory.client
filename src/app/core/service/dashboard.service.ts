@@ -25,7 +25,6 @@ export class DashboardService {
 
     return this.httpClient.get<DashboadSummaryDto>(this.baseUrl + 'dashboard/summary',  {params: httpParams }).subscribe({
       next: res => {
-        console.log(res);
         this._summary.next(res);
       },
       error: err => {

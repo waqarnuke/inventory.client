@@ -15,7 +15,7 @@ import { MainService } from '../../../core/service/main.service';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent{
 
   private snackbar = inject(SnackbarService)
   private router = inject(Router);
@@ -48,16 +48,13 @@ export class ProductListComponent implements OnInit {
     this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
+        this.loadProducts();
       } 
     }) 
     
   }
-  ngOnInit(): void {
-    this.loadProducts();    
-  }
 
   loadProducts() {
-    console.log(this.locationId)
     this.invtoryService.getproducts(this.locationId,0,20).subscribe({
       next: (products) => {
         this._products.next(products);
@@ -66,12 +63,10 @@ export class ProductListComponent implements OnInit {
   }
   
   onEditProduct(pid: any) {
-    console.log('Edit:', pid);
     this.router.navigate(['/inventory/add-product'], { queryParams: { id: pid } });
   }
   
   onDeleteProduct(productid: any) {
-    console.log(productid)
     let confirmDelete = confirm('Are you sure you want to delete?');
     if (confirmDelete)
     {

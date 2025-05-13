@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { product } from '../../shared/model/product';
 import { Pagination } from '../../shared/model/pagination';
 import { buyingRequestDto } from '../../shared/model/buyingRequestDto';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { buyingRequestDto } from '../../shared/model/buyingRequestDto';
 export class BuyService {
 
   httpClient = inject(HttpClient);
-  baseUrl = "https://localhost:5001/api/";
+  baseUrl = environment.imsApiUrl;
 
   constructor() { }
 
@@ -22,8 +23,9 @@ export class BuyService {
     return this.httpClient.delete(this.baseUrl + 'buying/' + id);
   }
 
-  getAllByingWithPagination(pageindex:number,pagesize:number,){
+  getAllByingWithPagination(locationId:number,pageindex:number,pagesize:number,){
       let httpParams  =  new HttpParams()
+      .set('locationId', locationId)
       .set('index', pageindex)
       .set('size', pagesize)
   

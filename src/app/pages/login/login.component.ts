@@ -50,10 +50,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     this.accountService.login(this.loginForm.value).subscribe({
       next: res => {
-        console.log("********************************" +res);
         this.accountService.getUserInfo().subscribe();
         this.router.navigateByUrl('/dashboard');
       },

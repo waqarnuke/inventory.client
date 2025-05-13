@@ -1,4 +1,6 @@
 export type Location = {
     id: number;
-    locationName: string;
+    name: string;
+    address: string;
+    companyId: number;
 }

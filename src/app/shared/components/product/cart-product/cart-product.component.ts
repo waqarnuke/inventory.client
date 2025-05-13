@@ -22,6 +22,8 @@ export class CartProductComponent implements OnInit {
   @Input() quantity: number = 0;
   @Input() total: number = 0;
   @Input() includeTex: boolean = false;
+  @Input() isAactive: boolean = false;
+  @Input() maxQuantity: number = 0;
   
   totalPrice: number = 0;
   totalQuantity: number = 0;

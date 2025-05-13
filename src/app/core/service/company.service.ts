@@ -1,0 +1,29 @@
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Company } from '../../shared/model/company';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CompanyService {
+  baseUrl = environment.imsApiUrl; 
+  httpClient = inject(HttpClient);
+  
+  constructor() { }
+  
+  getCompany(userid:string){
+    let httpParams  =  new HttpParams()
+              .set('userid', userid);
+              
+    return this.httpClient.get<Company>(this.baseUrl + 'company',{params: httpParams });
+  }
+
+  addCompany(compnay:Company){
+    return this.httpClient.post<Company>(this.baseUrl + 'company/', compnay);
+  }
+
+  updateCompany(compnay:Company){
+    return this.httpClient.put<Company>(this.baseUrl + 'company/' + compnay.id, compnay);
+  }
+}
