@@ -53,6 +53,7 @@ export class LoginComponent {
     this.accountService.login(this.loginForm.value).subscribe({
       next: res => {
         this.accountService.getUserInfo().subscribe();
+        
         this.router.navigateByUrl('/dashboard');
       },
       error: err => {

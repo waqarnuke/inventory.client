@@ -1,4 +1,4 @@
-import { Component,HostListener, inject } from '@angular/core';
+import { Component,HostListener, inject, OnInit } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MainService } from '../../core/service/main.service';
 import { AccountService } from '../../core/service/account.service';
 import { DashboardService } from '../../core/service/dashboard.service';
+import { Location } from '../../shared/model/location';
 
 @Component({
   selector: 'app-sidenav',
@@ -32,7 +33,8 @@ export class SidenavComponent {
 
   showFiller = true;
   isMobile: boolean = window.innerWidth < 768;
-  
+  role : string = "";
+
   menuItems : any[] = [
     {route: 'dashboard', icon: 'dashboard', label:'Dashboard'},
     {route: 'company', icon: 'Dashboard', label:'Organization '},
@@ -74,9 +76,11 @@ export class SidenavComponent {
   selectedLocation : number = 0; 
 
   constructor() {
+    console.log(this.accoutService.currentUser())
     if (this.accoutService.currentUser()) {
-      const userId = this.accoutService.currentUser().id;
-      this.mainService.getLocations(userId);
+      this.role =  this.accoutService.currentUser().roles;
+      const userId = this.accoutService.currentUser().id;  //this.accoutService.currentUser().roles === "Admin" ? this.accoutService.currentUser().id : this.accoutService.currentUser().id
+      this.mainService.getLocationForDropDown(userId);
       this.dashboardService.summary(1);
     }
   }
@@ -110,6 +114,11 @@ export class SidenavComponent {
         console.log(err);
       }
     })
+  }
+
+  get visibleMenuItems() {
+    const role = this.role;
+    return this.menuItems.filter(item => item.roles === role || item.roles === 'All');
   }
 
 }

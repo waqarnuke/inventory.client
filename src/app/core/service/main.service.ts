@@ -23,10 +23,11 @@ export class MainService {
   company$ = this._company.asObservable();
 
   currrentCompany = signal<any>(null);
+  currentLocation = signal<any>(null);
 
   constructor() { }
 
-
+  
   getLocations(userid:string){
     let httpParams  =  new HttpParams()
               .set('userid', userid);
@@ -36,7 +37,7 @@ export class MainService {
         next:res =>{
           this.currrentCompany.set(res);
           this._company.next(res);
-          this._location.next(res.locations);
+          //this._location.next(res.locations);
           this.setLocation(res.locations[0].id);
         }
       })
@@ -46,4 +47,14 @@ export class MainService {
     this._locationId.next(id);
   }
 
+  getLocationForDropDown(userid:string){
+    let httpParams  =  new HttpParams()
+              .set('userId', userid);
+    return this.httpClient.get<Location[]>(this.baseUrl + 'UserLocationAssignment/getLocations',{params: httpParams })
+      .subscribe({
+        next:res => {
+          this._location.next(res)
+        }
+      });
+  }
 }

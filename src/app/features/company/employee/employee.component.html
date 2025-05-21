@@ -1,1 +1,67 @@
-<p>employee works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-left p-2 p-md-2 m-md-0">
+            <div class="d-flex justify-content-start ps-3" >
+                <h3>Add Employee</h3>
+            </div>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text" formControlName="firstName" class="form-control" placeholder="Enter first name">
+                    <div *ngIf="registerForm.controls['firstName']?.touched && registerForm.controls['firstName']?.invalid ">
+                        <span class="text-danger">
+                            <small *ngIf="registerForm.controls['firstName']?.errors?.['required']">First name is required.</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="email" formControlName="lastName" class="form-control" placeholder="Enter last name">
+                    <div *ngIf="registerForm.controls['lastName']?.touched && registerForm.controls['lastName']?.invalid ">
+                        <span class="text-danger">
+                            <small *ngIf="registerForm.controls['lastName']?.errors?.['required']">Last name is required.</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" formControlName="email"  class="form-control" placeholder="Enter your password">
+                    <div *ngIf="registerForm.controls['email']?.touched && registerForm.controls['email']?.invalid ">
+                        <span class="text-danger">
+                            <small *ngIf="registerForm.controls['email']?.errors?.['required']">Email is required.</small>
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" formControlName="password"  class="form-control" placeholder="Enter your password">
+                    <div *ngIf="registerForm.controls['password']?.touched && registerForm.controls['password']?.invalid ">
+                        <span class="text-danger">
+                            <small *ngIf="registerForm.controls['password']?.errors?.['required']">Password is required.</small>
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="roles.length > 0">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" formControlName="roleId">
+                        <option value="" disabled selected>Select</option>
+                        <option *ngFor="let option of roles" [value]="option.name">{{ option.name }}</option>
+                    </select>
+                </div>
+                
+                @if(validationErrors) { 
+                    <div class="mb-3 p-4 bg-red text-danger alert alert-danger" role="alert">
+                        <ul class="list ">
+                            @for(error of validationErrors; track $index) {
+                                <li>{{ error }}</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                <button type="submit"  [disabled]="registerForm.invalid" class="btn btn-primary w-100 rounded-pill">Create your free account</button>
+            </form>
+        </div>
+    </div>
+</div>

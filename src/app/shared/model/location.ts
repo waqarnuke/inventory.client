@@ -3,4 +3,9 @@ export type Location = {
     name: string;
     address: string;
     companyId: number;
+    firstName?: string;
+    lastName ?:string;
+    email?:string;
+    createdById?:string;
 }
+

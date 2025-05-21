@@ -1,12 +1,8 @@
 import {AfterViewInit, Component,inject, OnInit, ViewChild} from '@angular/core';
 import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault,AsyncPipe, NgFor } from '@angular/common';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
-import { MainService } from '../../../core/service/main.service';
-import { BehaviorSubject } from 'rxjs';
-import { Pagination } from '../../../shared/model/pagination';
 import { Location } from '../../../shared/model/location';
 import { AccountService } from '../../../core/service/account.service';
 import { Company } from '../../../shared/model/company';
@@ -43,7 +39,7 @@ export class FirmComponent implements OnInit, AfterViewInit {
   locationForm: FormGroup = new FormGroup({}); 
   isSubmitted = false;
   isEdit = false;
-
+  
   //columns: any[] = [];
   columns = [
     { key: 'id', label: 'Id', visible:true },
@@ -63,6 +59,7 @@ export class FirmComponent implements OnInit, AfterViewInit {
     this.locationForm = this.fb.group ({
       id: this.fb.control({value:'',disabled:false}),
       title: this.fb.control({value:'',disabled:false},[Validators.required]),
+
     });
   
   }
@@ -130,6 +127,12 @@ export class FirmComponent implements OnInit, AfterViewInit {
   onLocationSubmit(){
     let locationName = this.locationForm.get('title');
     this.selectedLocation.name = locationName?.value;
+    console.log(this.selectedLocation.name);
+    this.selectedLocation.createdById = this.accountService.currentUser().id;
+    this.selectedLocation.firstName = this.accountService.currentUser().firstName;
+    this.selectedLocation.lastName = this.accountService.currentUser().lastName;
+    this.selectedLocation.email = this.accountService.currentUser().email;
+    console.log(this.selectedLocation);
     if(this.isEdit){
       this.locationService.updateLocation(this.selectedLocation)
       .subscribe({
@@ -157,10 +160,10 @@ export class FirmComponent implements OnInit, AfterViewInit {
           this.dataSource._updateChangeSubscription();
         },
         error: err => {
-          console.error('Error adding location:', err);
+          this.snackbar.error('Error adding location:' + err.message);
         }
       })
-}
+    }
     
 
     //
@@ -182,6 +185,7 @@ export class FirmComponent implements OnInit, AfterViewInit {
     this.locationService.deleteLocation(row).subscribe({
       next:res => {
         this.snackbar.success('Delete successful');
+        this.loadData();
       }
     })
   }

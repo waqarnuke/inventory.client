@@ -13,7 +13,7 @@ export class LocationService {
   constructor() { }
 
   addLocations(location:Location){
-
+    
     return this.httpClient.post<Location>(this.baseUrl + 'location/', location);
   }
 

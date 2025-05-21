@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-start ps-3" >
+  <h3>Assign Locations</h3>
+</div>
+<mat-form-field class="w-100" appearance="outline">
+    <mat-label>Search User</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="myControl"
+      [matAutocomplete]="auto"
+      (keydown.enter)="$event.preventDefault()"
+    >
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectUser($event.option.value)">
+      <mat-option *ngFor="let user of filteredUsers" [value]="user">
+        {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  
+  <!-- Selected Users List -->
+  <div class="list-group">
+    <table>
+        <tr *ngFor="let user of selectedUsers">
+            <td *ngFor="let user of selectedUsers">{{ user.firstName }}</td>
+            <td *ngFor="let user of selectedUsers">{{ user.lastName }}</td>
+            <td *ngFor="let user of selectedUsers">{{ user.email }}</td>
+            <td *ngFor="let user of selectedUsers">
+                <select class="form-select" (change)="onLocationChange($event)">
+                    <option value="" disabled selected>Select</option>
+                    <option *ngFor="let option of location" [value]="option.id">{{ option.name }}</option>
+                </select>
+            </td>
+            <td *ngFor="let user of selectedUsers">
+                <button class="btn btn-sm btn-danger" (click)="removeUser(user)">Remove</button>
+                <button [disabled]="!isSave" class="btn btn-sm btn-success" (click)="saveUser(user)">Save</button>
+            </td>
+        </tr>
+    </table>
+  </div>
+  <div class="table-responsive"> 
+    <table mat-table [dataSource]="dataSource" class="table table-striped table-sm" *ngIf="dataSource.data.length > 0">
+        <ng-container *ngFor="let col of columns" [matColumnDef]="col.key">
+            <th mat-header-cell *matHeaderCellDef>{{ col.label }}</th>
+            <td mat-cell *matCellDef="let element">
+                <ng-container [ngSwitch]="col.key">
+                    <ng-container *ngSwitchCase="'actions'">
+                        <div class="d-flex gap-1" [ngClass]="{ 'd-none': element['firstName'] === 'super' || element['lastName'] === 'admin' ? true : false }" >
+                          <button [disabled]="!isddlSelect" (click)="onSave(element)" class="btn btn-sm btn-outline-primary"  title="Save">
+                              <i class="fas fa-save"></i>
+                          </button>
+                          <button class="btn btn-sm btn-outline-danger" title="Delete" (click)="onDelete(element['id'])" >
+                              <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'dropdown'">
+                      <div *ngIf="mainService.location$ | async as loc">
+                        <select [disabled]="element['firstName'] === 'super' || element['lastName'] === 'admin' ? true : false"  
+                              *ngIf="loc" class="form-select" [ngModel]="element['locationId']" (change)="onListLocationChange($event)">
+                          <option value="" disabled selected>Select</option>
+                          <option *ngFor="let option of location" [value]="option.id">{{ option.name }}</option>
+                      </select>
+                      </div>
+                    </ng-container>
+                      <ng-container *ngSwitchDefault>
+                          {{ element[col.key] }}
+                      </ng-container>
+                  </ng-container>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div *ngIf="dataSource.data.length === 0" class="text-center text-muted p-4">
+        <i class="fas fa-box-open fa-2x mb-2 d-block"></i>
+        <div>No data found</div>
+    </div>
+</div>
+  

@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { CompanyComponent } from './company.component';
 import { FirmComponent } from './firm/firm.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { AssignmentComponent } from './assignment/assignment.component';
 
 export const companyRoutes: Routes = [
     { 
@@ -10,7 +11,8 @@ export const companyRoutes: Routes = [
         children:[
             { path: '', redirectTo: 'firm', pathMatch: 'full' },
             { path: 'firm', component: FirmComponent },
-            { path: 'employee', component: EmployeeComponent }
+            { path: 'employee', component: EmployeeComponent },
+            { path: 'assignment', component: AssignmentComponent }
         ]
     },
     
