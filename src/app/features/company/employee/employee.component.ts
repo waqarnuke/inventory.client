@@ -1,14 +1,14 @@
 import { Component,inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { JsonPipe, NgFor, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { NgFor, NgIf } from '@angular/common';
 import { AccountService } from '../../../core/service/account.service';
 import { SnackbarService } from '../../../core/service/snackbar.service';
 import { Roles } from '../../../shared/model/roles';
 
 @Component({
   selector: 'app-employee',
-  imports: [ReactiveFormsModule, FormsModule, JsonPipe,NgIf,NgFor],
+  imports: [ReactiveFormsModule, FormsModule,NgIf,NgFor],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.scss'
 })

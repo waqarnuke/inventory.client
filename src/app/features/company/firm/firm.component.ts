@@ -1,5 +1,5 @@
 import {AfterViewInit, Component,inject, OnInit, ViewChild} from '@angular/core';
-import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault,AsyncPipe, NgFor } from '@angular/common';
+import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgFor } from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -18,7 +18,7 @@ export interface DialogData {
 
 @Component({
   selector: 'app-firm',
-  imports: [ReactiveFormsModule, NgIf, MatTableModule, MatPaginatorModule, NgSwitch, NgSwitchDefault,NgSwitchCase, AsyncPipe, NgFor],
+  imports: [ReactiveFormsModule, NgIf, MatTableModule, MatPaginatorModule, NgSwitch, NgSwitchDefault,NgSwitchCase, NgFor],
   templateUrl: './firm.component.html',
   styleUrl: './firm.component.scss'
 })

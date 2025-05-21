@@ -53,6 +53,7 @@ export class MainService {
     return this.httpClient.get<Location[]>(this.baseUrl + 'UserLocationAssignment/getLocations',{params: httpParams })
       .subscribe({
         next:res => {
+          this.setLocation(res[0].id);
           this._location.next(res)
         }
       });
