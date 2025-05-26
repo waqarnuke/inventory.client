@@ -4,35 +4,42 @@
 }
     <mat-sidenav-container >
         <mat-sidenav #sidenav mode="side" opened [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" >
+            <a href="/" class="d-flex align-items-center p-2 mb-3 mb-md-0 me-md-auto text-white text-decoration-none" > 
+                <svg class="bi pe-none me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap">
+                    <symbol id="bootstrap" viewBox="0 0 118 94" fill="currentColor">
+                        <path d="M57.5 0C25.8 0 0 25.8 0 57.5S25.8 115 57.5 115 115 89.2 115 57.5 89.2 0 57.5 0zm0 108C28.1 108 10 89.9 10 60.5S28.1 13 57.5 13c29.4 0 53.5 18.1 53.5 47.5S86.9 108 57.5 108z"/>
+                    </symbol>
+                </use></svg> <span class="fs-4">Cygnus</span> 
+            </a>
+            <hr class="dropdown-divider text-white border " />
             <mat-nav-list>
                 @for (item of menuItems; track $index) {
                     <div>
-                <!-- Parent Menu Item -->
-                <a mat-list-item 
-                    [routerLink]="item.route" 
-                    class="d-flex align-items-center parent-menu"
-                    (click)="toggleMenu(item)"
-                    routerLinkActive="active">
-                    <mat-icon class="me-2">{{ item.icon }}</mat-icon>
-                    <span>{{ item.label }}</span>
-                    <mat-icon *ngIf="item.children" class="ms-auto">
-                        {{ item.expanded ? 'expand_less' : 'expand_more' }}
-                    </mat-icon>
-                </a>
-
-                <!-- Child Menu Items with Smooth CSS Transition -->
-                <div class="submenu" [class.open]="item.expanded">
-                    @for (child of item.children; track $index) {
+                        <!-- Parent Menu Item -->
                         <a mat-list-item 
-                            [routerLink]="child.route" 
-                            class="child-item" 
+                            [routerLink]="item.route" 
+                            class="d-flex align-items-center parent-menu"
+                            (click)="toggleMenu(item)"
                             routerLinkActive="active">
                             <mat-icon class="me-2">{{ item.icon }}</mat-icon>
-                            <span>• {{ child.label }}</span>
+                            <span>{{ item.label }}</span>
+                            <mat-icon *ngIf="item.children" class="ms-auto">
+                                {{ item.expanded ? 'expand_less' : 'expand_more' }}
+                            </mat-icon>
                         </a>
-                    }
-                </div>
-            </div>
+                        <!-- Child Menu Items with Smooth CSS Transition -->
+                        <div class="submenu" [class.open]="item.expanded">
+                            @for (child of item.children; track $index) {
+                                <a mat-list-item 
+                                    [routerLink]="child.route" 
+                                    class="child-item" 
+                                    routerLinkActive="active">
+                                    <mat-icon class="me-2">{{ item.icon }}</mat-icon>
+                                    <span>• {{ child.label }}</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
                 }
             </mat-nav-list>
         </mat-sidenav>
@@ -69,7 +76,7 @@
                 <router-outlet></router-outlet>
             </div>
             <div class="footer">
-                &copy; 2025 Your Company. All Rights Reserved.
+                &copy; 2025 Soft Cygnus. All Rights Reserved.
             </div>
         </mat-sidenav-content>
     </mat-sidenav-container>

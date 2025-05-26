@@ -38,6 +38,7 @@ export class AddSaleComponent {
 
   buySaleReq: BuySaleRequestDto = {
     paymentMethod: "",
+    locationId: 0,
     items: []
   }
 
@@ -144,6 +145,7 @@ export class AddSaleComponent {
   purchase(paymentMethod:string) {
     this.buySaleReq.paymentMethod = paymentMethod;
     this.buySaleReq.items = this.selectedProducts;
+    this.buySaleReq.locationId = this.locationId;
     this.sellService.confirm(this.buySaleReq).subscribe({
       next: (res) => {
         this.snackbar.success("Sale has been successfully done");
@@ -156,4 +158,13 @@ export class AddSaleComponent {
       }
     })
   }
+
+  amountControl = new FormControl('$0.00');
+
+  formatAmount(): void {
+    const raw = this.amountControl.value?.replace(/[^0-9.]/g, '') || '0';
+    const val = parseFloat(raw);
+    this.amountControl.setValue(`$${val.toFixed(2)}`, { emitEvent: false });
+  }
+
 }

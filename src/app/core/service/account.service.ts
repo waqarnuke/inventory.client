@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { map, pipe } from 'rxjs';
 import { Roles } from '../../shared/model/roles';
 import { AssignedLocations } from '../../shared/model/assignedLocations';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class AccountService {
   baseUrl = environment.umisApiUrl;
   inventoryUrl = environment.imsApiUrl;
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
   currentUser = signal<any>(null);
 
   login(vlaues: any) {
@@ -30,6 +32,7 @@ export class AccountService {
       map(user => {
         // console.log(user);
         this.currentUser.set(user);
+        this.authService.setUser(user);
         return user;
       })
     )

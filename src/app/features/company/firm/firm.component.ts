@@ -39,14 +39,13 @@ export class FirmComponent implements OnInit, AfterViewInit {
   locationForm: FormGroup = new FormGroup({}); 
   isSubmitted = false;
   isEdit = false;
-  
+  companyId: number = 0;
   //columns: any[] = [];
   columns = [
     { key: 'id', label: 'Id', visible:true },
     { key: 'name', label: 'Title', visible:true },
     { key: 'actions', label: 'Action', visible:true }
   ]
-
 
   constructor(private fb: FormBuilder) {
 
@@ -79,19 +78,22 @@ export class FirmComponent implements OnInit, AfterViewInit {
   }
 
   loadData(){
-    this.companyService.getCompany(this.accountService.currentUser().id).subscribe({
+    const userId = this.accountService.currentUser().id;
+    let setuserId = this.companyForm.get('userId');
+    setuserId?.setValue(userId);
+    this.companyService.getCompany(userId).subscribe({
       next:res=>{
         if(res)
         {
           this.dataSource.data = res.locations as Location[];
           this.company = res;
+          console.log(this.company);
           let companyId = this.companyForm.get('id');
           companyId?.setValue(this.company.id);
-          let userId = this.companyForm.get('userId');
-          userId?.setValue(this.company.userId);
           let companyName = this.companyForm.get('companyName');
           companyName?.setValue(this.company.companyName);
           companyName?.disable();
+
           this.isSubmitted = true;
         }
         else{
@@ -104,18 +106,38 @@ export class FirmComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.company.userId = this.accountService.currentUser().Id;
-    this.companyService.updateCompany(this.companyForm.value)
+    if(this.company.id > 0 || this.company.companyName === undefined){
+      console.log(this.companyForm.value);
+      this.companyService.addCompany(this.companyForm.value)
       .subscribe({
         next:res=>{
-          this.snackbar.success("Company name has been update.")
+          console.log(res);
+          this.companyId = res;
+          this.companyForm.get('id')?.setValue(this.companyId);
+          this.snackbar.success("Company name has been save.")
+          let itemTypeId = this.companyForm.get('companyName');
+          itemTypeId?.disable();
+          this.isSubmitted = true;
         },
-        error:err => this.snackbar.error("Problem update problem.")
-      
+        error:err => this.snackbar.error("Add company failed.")
+        
       })
-    let itemTypeId = this.companyForm.get('companyName');
-    itemTypeId?.disable();
-    this.isSubmitted = true;
+    }
+    else
+    {
+      this.company.userId = this.accountService.currentUser().Id;
+      this.companyService.updateCompany(this.companyForm.value)
+        .subscribe({
+          next:res=>{
+            this.snackbar.success("Company name has been update.")
+          },
+          error:err => this.snackbar.error("Problem update problem.")
+        
+        })
+      let itemTypeId = this.companyForm.get('companyName');
+      itemTypeId?.disable();
+      this.isSubmitted = true;
+    }
   } 
 
   edit(){
@@ -151,7 +173,7 @@ export class FirmComponent implements OnInit, AfterViewInit {
       })
     }
     else{
-      this.selectedLocation.companyId = this.company?.id as number;
+      this.selectedLocation.companyId = this.company?.id != null || this.company?.id != undefined ? this.company?.id as number  : this.companyId ;
       this.locationService.addLocations(this.selectedLocation)
       .subscribe({
         next: res => {

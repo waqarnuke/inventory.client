@@ -14,6 +14,8 @@ import { MainService } from '../../core/service/main.service';
 import { AccountService } from '../../core/service/account.service';
 import { DashboardService } from '../../core/service/dashboard.service';
 import { Location } from '../../shared/model/location';
+import { MENU_ITEMS } from './sidebar-menu';
+import { AuthService } from '../../core/service/auth.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -23,8 +25,9 @@ import { Location } from '../../shared/model/location';
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit {
 
+  private authService = inject(AuthService);
   accoutService = inject(AccountService);
   mainService = inject(MainService);
   busyService = inject(BusyService); 
@@ -35,42 +38,7 @@ export class SidenavComponent {
   isMobile: boolean = window.innerWidth < 768;
   role : string = "";
 
-  menuItems : any[] = [
-    {route: 'dashboard', icon: 'dashboard', label:'Dashboard'},
-    {route: 'company', icon: 'Dashboard', label:'Organization '},
-    {
-      route: null, 
-      icon: 'shopping_bag', 
-      label:'inventory',
-      children: [
-            {route: 'inventory/add-product', icon: 'shopping_cart ', label:'Add Product'},
-            {route: 'inventory/product-list', icon: 'shopping_cart ', label:'Products'},
-      ]
-    }, 
-    {
-      route: null, 
-      icon: 'shopping_bag', 
-      label:'Buy',
-      children: [
-            {route: 'buy/add-buy', icon: 'shopping_cart ', label:'Create Buying'},
-            {route: 'buy/buy-list', icon: 'shopping_cart ', label:'Buying List'},
-      ]
-    }, 
-    {
-      route: null, 
-      icon: 'shopping_bag', 
-      label:'Sale',
-      children: [
-            {route: 'sale/add-sale', icon: 'shopping_cart ', label:'Add Sale'},
-            {route: 'sale/sale-list', icon: 'shopping_cart ', label:'Sale List'},
-      ]
-    }, 
-    
-    {route: 'Employee', icon: 'people' , label:'Employee'},
-    {route: 'Integrations', icon: 'extension' , label:'Integrations'},
-    {route: 'reports', icon: 'bar_chart' , label:'Reports'},
-    {route: 'Settings', icon: 'settings' , label:'Settings'}
-  ];
+  menuItems : any[] = [];
   
   stores: any[] = [];  
   selectedLocation : number = 0; 
@@ -81,8 +49,12 @@ export class SidenavComponent {
       this.role =  this.accoutService.currentUser().roles;
       const userId = this.accoutService.currentUser().id;  //this.accoutService.currentUser().roles === "Admin" ? this.accoutService.currentUser().id : this.accoutService.currentUser().id
       this.mainService.getLocationForDropDown(userId);
-      this.dashboardService.summary(1);
+      //this.dashboardService.summary(1);
     }
+  }
+  ngOnInit(): void {
+    const role = this.authService.getUserRole();
+    this.menuItems = MENU_ITEMS.filter(item => item.roles?.includes(role));
   }
 
   @HostListener('window:resize', ['$event'])
@@ -100,6 +72,7 @@ export class SidenavComponent {
 
   onLocationChange(locationId: any) {
     const value = locationId.target.value;
+    console.log(value);
     this.mainService.setLocation(value)
     this.dashboardService.summary(value);
   }

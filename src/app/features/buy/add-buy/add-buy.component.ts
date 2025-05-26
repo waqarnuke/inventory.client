@@ -8,6 +8,7 @@ import { SnackbarService } from '../../../core/service/snackbar.service';
 import { BuyService } from '../../../core/service/buy.service';
 import { buyingRequestDto } from '../../../shared/model/buyingRequestDto';
 import { buyingItem } from '../../../shared/model/buyingItem';
+import { MainService } from '../../../core/service/main.service';
 
 
 
@@ -28,19 +29,26 @@ export class AddBuyComponent implements OnInit {
   private snackbar = inject(SnackbarService)
   inventoryService = inject(inventoryService)
   buyingService = inject(BuyService)
+  private mainService = inject(MainService);
 
   buyingItem : buyingItem[] = [];
   quantity: number = 0;
   total: number = 0;
-  
+  loationId: number = 0;
+
   buyingItemRequest: buyingRequestDto = {
     paymentMethod: "",
+    locationId: this.loationId,
     Items: []
   }
   
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.mainService.locationId$.subscribe({
+      next:res => this.loationId = Number(res)  || 0,
+      error: err => console.error(err)
+    })
   }
   
   getProducts(product:product)
@@ -61,9 +69,10 @@ export class AddBuyComponent implements OnInit {
   purchase(paymentMethod:string) {
     this.buyingItemRequest.paymentMethod = paymentMethod;
     this.buyingItemRequest.Items = this.buyingItem;
+    this.buyingItemRequest.locationId = this.loationId;
     this.buyingService.confirm(this.buyingItemRequest).subscribe({
       next: (res) => {
-        this.snackbar.success("Product added to cart successfully");
+        this.snackbar.success("Product purchase successfully");
         this.buyingItem = [];
         this.quantity = 0;
         this.total = 0;

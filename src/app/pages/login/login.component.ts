@@ -52,9 +52,15 @@ export class LoginComponent {
   onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe({
       next: res => {
-        this.accountService.getUserInfo().subscribe();
+        this.accountService.getUserInfo().subscribe({
+          next: () => {
+            this.router.navigateByUrl('/dashboard');
+          },
+          error: err => {
+            console.error('User info error', err);
+          }
+        });
         
-        this.router.navigateByUrl('/dashboard');
       },
       error: err => {
         console.log(err);

@@ -19,8 +19,10 @@ export class CompanyService {
     return this.httpClient.get<Company>(this.baseUrl + 'company',{params: httpParams });
   }
 
-  addCompany(compnay:Company){
-    return this.httpClient.post<Company>(this.baseUrl + 'company/', compnay);
+  addCompany(company:Company){
+    company.id = 0; 
+    company.locations = [];
+    return this.httpClient.post<number>(this.baseUrl + 'company', company);
   }
 
   updateCompany(compnay:Company){

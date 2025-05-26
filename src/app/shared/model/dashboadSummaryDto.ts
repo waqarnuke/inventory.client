@@ -4,4 +4,6 @@ export type DashboadSummaryDto = {
     totalBuying: number
     registerCashBalance: number
     registerCardBalance: number
+    selingRegister: number
+    buyingRegister: number
 }

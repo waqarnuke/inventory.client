@@ -22,7 +22,6 @@ export class DashboardService {
   summary(locationId: number) {
     let httpParams  =  new HttpParams()
         .set('locationId', locationId)
-
     return this.httpClient.get<DashboadSummaryDto>(this.baseUrl + 'dashboard/summary',  {params: httpParams }).subscribe({
       next: res => {
         this._summary.next(res);

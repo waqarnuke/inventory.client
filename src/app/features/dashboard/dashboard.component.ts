@@ -26,7 +26,10 @@ export class DashboardComponent {
   ngOnInit(): void {
     this.mainService.locationId$.subscribe({
       next:res => {
-        this.locationId = res as number;
+        if(res !== null && res !== undefined && res !== 0) {
+          this.dashboardService.summary(res as number);
+          this.locationId = res as number;
+        }
       } 
     })
     this.user = this.accountService.currentUser();
