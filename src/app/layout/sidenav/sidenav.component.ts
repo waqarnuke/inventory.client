@@ -16,32 +16,38 @@ import { DashboardService } from '../../core/service/dashboard.service';
 import { Location } from '../../shared/model/location';
 import { MENU_ITEMS } from './sidebar-menu';
 import { AuthService } from '../../core/service/auth.service';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 @Component({
   selector: 'app-sidenav',
   imports: [RouterOutlet,MatToolbarModule, MatButtonModule, MatIconModule,MatSidenavModule,MatListModule,RouterModule,NgIf,MatProgressBarModule,
-    MatSelectModule,MatFormFieldModule,NgFor,AsyncPipe
+    MatSelectModule,MatFormFieldModule,NgFor,AsyncPipe,MatMenuModule
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent implements OnInit {
+navigateTo(arg0: string) {
+throw new Error('Method not implemented.');
+}
 
   private authService = inject(AuthService);
   accoutService = inject(AccountService);
   mainService = inject(MainService);
-  busyService = inject(BusyService); 
+  busyService = inject(BusyService);
   private router = inject(Router);
-  private dashboardService = inject(DashboardService);  
+  private dashboardService = inject(DashboardService);
 
   showFiller = true;
   isMobile: boolean = window.innerWidth < 768;
   role : string = "";
 
   menuItems : any[] = [];
-  
-  stores: any[] = [];  
-  selectedLocation : number = 0; 
+
+  stores: any[] = [];
+  selectedLocation : number = 0;
+accountMenu: any;
 
   constructor() {
     console.log(this.accoutService.currentUser())
@@ -64,7 +70,7 @@ export class SidenavComponent implements OnInit {
 
   checkScreenSize() {
     this.isMobile = window.innerWidth < 768;
-  } 
+  }
 
   toggleMenu(item: any) {
     item.expanded = !item.expanded;

@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <h1>Dashboard</h1>
         </div>
-    </div>  
+    </div>
 </div>  -->
 <div class="container-fluid mt-0"> <!-- Bootstrap margin-top class -->
     <div class="row">
@@ -22,41 +22,38 @@
         @if(summary)
         {
             <div class="col-sm-3 col-lg-3 p-1" >
-                <div class="card summary-card">
-                    <div class="d-flex justify-content-between">
-                        <div class="summary-title">Buying</div>
+              <div class="card summary-card">
+              <div class="text-center">
+              <mat-icon style=" font-size: 30px; color: #007bff;">shopping_cart</mat-icon>
+              <div style=" font-size: 20px; color: #007bff ;">Buying</div>
+                  <div class="task-count">{{summary.buyingRegister| currency }} </div>
+                    <div class="task-label task-count">Register</div>
+                    <div class="completed task-count">Completed: <strong>13</strong></div>
                     </div>
-                    <div class="text-center my-3">
-                        <div class="task-count">{{summary.buyingRegister| currency }} </div>
-                            <div class="task-label task-count">Register</div>
-                            <div class="completed task-count">Completed: <strong>13</strong></div>
                     </div>
-                </div>        
             </div>
             <div class="col-sm-3 col-lg-3 p-1">
-                <div class="card summary-card">
-                    <div class="d-flex justify-content-between">
-                        <div class="summary-title">Selling</div>
-                    </div>
-                    <div class="text-center my-3">
-                        <div class="task-count">{{summary.selingRegister| currency }} </div>
-                        <div class="task-label task-count">Total Buying</div>
-                        <div class="completed">Completed: <strong>13</strong></div>
-                    </div>
+            <div class="card summary-card">
+            <div class="text-center">
+                              <mat-icon style="font-size: 30px; color: #28a745;">bar_chart</mat-icon>
+                <div style=" font-size: 20px; color: #007bff ;">Summary</div>
+                  <div class="task-count">{{summary.selingRegister| currency }} </div>
+                  <div class="task-label task-count">Total Buying</div>
+                  <div class="completed task-count">Completed: <strong>13</strong></div>
                 </div>
+              </div>
             </div>
             <div class="col-sm-3 col-lg-3 p-1" >
                 <div class="card summary-card">
-                    <div class="d-flex justify-content-between">
-                        <div class="summary-title">Summary</div>
-                    </div>
-                    <div class="text-center my-3">
+                <div class="text-center">
+              <mat-icon style="font-size: 30px; color: #0f7edf;">shopping_bag</mat-icon>
+                <div style=" font-size: 20px; color: #007bff ;">Selling</div>
                         <div class="task-count">{{summary.totalSales| currency }} </div>
                         <div class="task-label task-count">Total Selling</div>
-                        <div class="completed">Completed: <strong>13</strong></div>
+                        <div class="completed task-count">Completed: <strong>13</strong></div>
                     </div>
                 </div>
             </div>
         }
     </div>
-</div>  
+</div>

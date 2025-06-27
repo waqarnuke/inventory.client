@@ -1,23 +1,23 @@
-@if(busyService.loading()) 
+@if(busyService.loading())
 {
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
     <mat-sidenav-container >
         <mat-sidenav #sidenav mode="side" opened [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" >
-            <a href="/" class="d-flex align-items-center p-2 mb-3 mb-md-0 me-md-auto text-white text-decoration-none" > 
+            <a href="/" class="d-flex align-items-center p-2 mb-3 mb-md-0 me-md-auto text-white text-decoration-none" >
                 <svg class="bi pe-none me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap">
                     <symbol id="bootstrap" viewBox="0 0 118 94" fill="currentColor">
                         <path d="M57.5 0C25.8 0 0 25.8 0 57.5S25.8 115 57.5 115 115 89.2 115 57.5 89.2 0 57.5 0zm0 108C28.1 108 10 89.9 10 60.5S28.1 13 57.5 13c29.4 0 53.5 18.1 53.5 47.5S86.9 108 57.5 108z"/>
                     </symbol>
-                </use></svg> <span class="fs-4">Cygnus</span> 
+                </use></svg> <span class="fs-4">Cygnus</span>
             </a>
             <hr class="dropdown-divider text-white border " />
             <mat-nav-list>
                 @for (item of menuItems; track $index) {
                     <div>
                         <!-- Parent Menu Item -->
-                        <a mat-list-item 
-                            [routerLink]="item.route" 
+                        <a mat-list-item
+                            [routerLink]="item.route"
                             class="d-flex align-items-center parent-menu"
                             (click)="toggleMenu(item)"
                             routerLinkActive="active">
@@ -30,9 +30,9 @@
                         <!-- Child Menu Items with Smooth CSS Transition -->
                         <div class="submenu" [class.open]="item.expanded">
                             @for (child of item.children; track $index) {
-                                <a mat-list-item 
-                                    [routerLink]="child.route" 
-                                    class="child-item" 
+                                <a mat-list-item
+                                    [routerLink]="child.route"
+                                    class="child-item"
                                     routerLinkActive="active">
                                     <mat-icon class="me-2">{{ item.icon }}</mat-icon>
                                     <span>• {{ child.label }}</span>
@@ -56,20 +56,50 @@
                             <option *ngFor="let option of loc" [value]="option.id">{{ option.name }}</option>
                         </select>
                     </ng-container>
-                    
+
                     <button mat-icon-button>
                         <mat-icon>notifications</mat-icon>
                     </button>
-                    <button mat-icon-button>
-                        <mat-icon>account_circle</mat-icon>
-                    </button>
-                    @if(accoutService.currentUser())
-                    {
-                        <button mat-icon-button (click)="logout()">
-                            <mat-icon >logout</mat-icon>
-                        </button>
-                    }
-                    
+                    <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+  <mat-icon>account_circle</mat-icon>
+</button>
+
+<!-- Dropdown Menu -->
+<mat-menu #accountMenu="matMenu">
+  <!-- Show only if user is logged in -->
+  <ng-container *ngIf="accoutService.currentUser() as user">
+    <button mat-menu-item disabled>
+      <mat-icon>person</mat-icon>
+      <span>{{ user.email }}</span>
+    </button>
+ <mat-divider></mat-divider>
+
+    <!-- Inbox -->
+    <button mat-menu-item (click)="navigateTo('inbox')">
+      <mat-icon>mail</mat-icon>
+      <span>Inbox</span>
+    </button>
+
+    <!-- Notes -->
+    <button mat-menu-item (click)="navigateTo('notes')">
+      <mat-icon>note</mat-icon>
+      <span>Notes</span>
+    </button>
+
+    <!-- Customer Details -->
+    <button mat-menu-item (click)="navigateTo('customers')">
+      <mat-icon>group</mat-icon>
+      <span>Customer Details</span>
+    </button>
+
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </ng-container>
+</mat-menu>
+
                 </div>
             </mat-toolbar>
             <div style="flex-grow:1; overflow-y: auto;">
@@ -80,4 +110,4 @@
             </div>
         </mat-sidenav-content>
     </mat-sidenav-container>
-    
+
