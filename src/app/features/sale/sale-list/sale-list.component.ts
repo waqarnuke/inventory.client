@@ -33,11 +33,14 @@ export class SaleListComponent {
     this.mainService.locationId$.subscribe({
       next:res => {
         this.locationId = res as number;
-        this.load();
+        //this.load();
       } 
     }) 
   }
 
+  ngOnInit() {
+    this.load();
+  }
   load() {
     this.saleService.getSaleByTransaction(this.locationId,0,20).subscribe({
       next: (sale) => {

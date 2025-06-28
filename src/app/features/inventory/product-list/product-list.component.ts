@@ -55,7 +55,7 @@ export class ProductListComponent{
   }
 
   loadProducts() {
-    this.invtoryService.getproducts(this.locationId,0,20).subscribe({
+    this.invtoryService.getproducts(this.locationId,0,20,'Id',false).subscribe({
       next: (products) => {
         this._products.next(products);
       }
@@ -80,7 +80,7 @@ export class ProductListComponent{
   }
 
   onPageChange(event: any) {
-    this.invtoryService.getproducts(this.locationId,event.pageIndex, event.pageSize).subscribe({
+    this.invtoryService.getproducts(this.locationId,event.pageIndex, event.pageSize,'Id',false).subscribe({
       next: (products) => {
         this._products.next(products);
       }

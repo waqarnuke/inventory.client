@@ -84,6 +84,16 @@ export class AddBuyComponent implements OnInit {
   }
 
   removeItem(itemId: number) {
+    let confirmDelete = confirm('Are you sure you want to delete?');
+    if (confirmDelete)
+    {
+      this.inventoryService.deleteProduct(itemId).subscribe({
+        next: res => {
+          this.snackbar.success ("product saved successfully" );
+        }
+      });
+      
+    }
     this.buyingItem.forEach(id => {
       const index = this.buyingItem.findIndex(item => item.itemId === itemId);
       if (index !== -1) {

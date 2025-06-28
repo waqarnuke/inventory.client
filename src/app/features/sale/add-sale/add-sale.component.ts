@@ -15,6 +15,7 @@ import { SaleService } from '../../../core/service/sale.service';
 import { CartProductComponent } from '../../../shared/components/product/cart-product/cart-product.component';
 import { MainService } from '../../../core/service/main.service';
 
+
 @Component({
   selector: 'app-add-sale',
   imports: [
@@ -67,7 +68,7 @@ export class AddSaleComponent {
     this.calculateTotalQuantity();
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
-      switchMap(value => this.inventoryService.searchProduct(value)),
+      switchMap(value => this.inventoryService.searchProduct(value, this.locationId)),
     ).subscribe(products => {
       this.filteredProducts = products ?? [];
     });
@@ -158,13 +159,4 @@ export class AddSaleComponent {
       }
     })
   }
-
-  amountControl = new FormControl('$0.00');
-
-  formatAmount(): void {
-    const raw = this.amountControl.value?.replace(/[^0-9.]/g, '') || '0';
-    const val = parseFloat(raw);
-    this.amountControl.setValue(`$${val.toFixed(2)}`, { emitEvent: false });
-  }
-
 }

@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-12" *ngIf="products$ | async as products">
-            <div  class="h-100 p-2 mt-2 bg-body-tertiary border rounded-3" *ngIf="products.totalCount > 0">
+            <div  class="h-100 p-2 mt-2 bg-body-tertiary border rounded-3">
                 <app-generic-table 
                 [columns] = "columns"
                 [data]="products$"

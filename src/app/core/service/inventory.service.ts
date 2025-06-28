@@ -107,11 +107,13 @@ export class inventoryService {
       ); 
   }
 
-  getproducts(locationId:number,pageindex:number,pagesize:number,){
+  getproducts(locationId:number,pageindex:number,pagesize:number,orderBy:string, ascending:boolean){
     let httpParams  =  new HttpParams()
     .set('locationId', locationId)
     .set('index', pageindex)
     .set('size', pagesize)
+    .set('orderBy', orderBy)
+    .set('ascending', ascending);
 
     return this.httpClient.get<Pagination<any>>(this.baseUrl + 'item/getPaginatedItems', {params: httpParams });
   }
@@ -148,13 +150,15 @@ export class inventoryService {
     return this.httpClient.delete(this.baseUrl + 'item/deletephoto/' + id);
   }
 
-  searchProduct(search:string) :Observable<BuySaleItem[]>
+  searchProduct(search:string,locationId:number) :Observable<BuySaleItem[]>
   {
     if (!search || search.trim().length < 3) {
       return of([]); // No API call, empty result for dropdown
     }
+
     let httpParams  =  new HttpParams()
-    .set('query', search)
+                .set('query', search)
+                .set('locationId', locationId)
 
     return this.httpClient.get<BuySaleItem[]>(this.baseUrl + 'item/search', {params: httpParams });
   }
